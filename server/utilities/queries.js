@@ -40,6 +40,33 @@ class queryProvider {
     });
   }
 
+
+  /**
+   * Delete user by email
+   * @staticmethod
+   * @param  {string} email - Request object
+   * @return {string} res
+   */
+  static deleteUserByEmailQuery(email) {
+    return new Promise((resolve, reject) => {
+      const query = `DELETE FROM users WHERE email = '${email}'`;
+      db.query(query)
+        .then((result) => {
+          if (result.rowCount === 0) {
+            const message = 'user does not exist';
+            reject(message);
+          } else if (result.rowCount >= 1) {
+            const response = 'User Deleted';
+            resolve(response);
+          }
+        })
+        .catch((error) => {
+          const messager = 'Error Finding User';
+          reject(error);
+        });
+    });
+  }
+
   /**
    * Find account fromdatabase
    * @staticmethod

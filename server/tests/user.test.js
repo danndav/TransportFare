@@ -2,9 +2,15 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../app';
+import queryProivider from '../utilities/queries';
 
 chai.use(chaiHttp);
 chai.should();
+
+before(() => {
+  const email = 'tester@gmail.com';
+  return queryProivider.deleteUserByEmailQuery(email).then((res) => {}).catch(() => {});
+});
 
 
 // eslint-disable-next-line no-undef
@@ -20,7 +26,7 @@ describe('/POST REQUEST', () => {
       .request(server)
       .post('/api/v1/auth/signup')
       .send({
-        email: 'teesteerr@gmail.com',
+        email: 'tester@gmail.com',
         firstName: 'hello',
         lastName: 'Abass',
         phoneNumber: '08023461217',
