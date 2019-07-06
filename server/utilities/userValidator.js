@@ -28,4 +28,9 @@ const userSignupSchema = {
   isAdmin,
 };
 
-export default { userSignupSchema };
+const userSigninSchema = {
+  email,
+  password,
+};
+
+export default { userSignupSchema, userSigninSchema };
