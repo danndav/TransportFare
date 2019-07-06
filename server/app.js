@@ -31,3 +31,5 @@ app.listen(PORT, () => {
     console.log(`The production server is now running at ${PORT}`);
   }
 });
+
+export default app;
