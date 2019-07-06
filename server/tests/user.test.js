@@ -138,4 +138,79 @@ describe('/POST REQUEST', () => {
         done();
       });
   });
+
+  describe('/POST REQUEST', () => {
+    it('it should signin user ', (done) => {
+      chai
+        .request(server)
+        .post('/api/v1/auth/signin')
+        .send({
+          email: 'dannaing@gmail.com',
+          password: 'danieldavid',
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('status').to.equals(200);
+          res.body.should.have.property('data').to.be.an('object');
+          res.body.should.have
+            .property('message')
+            .to.equals('Authentication Successful');
+
+          done();
+        });
+    });
+
+
+    it('it should not  signin user ', (done) => {
+      chai
+        .request(server)
+        .post('/api/v1/auth/signin')
+        .send({})
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.have.property('status').to.equals(400);
+          res.body.should.have
+            .property('message')
+            .to.equals('Please fill all fields');
+
+          done();
+        });
+    });
+
+
+    it('it should not  signin user with wrong input', (done) => {
+      chai
+        .request(server)
+        .post('/api/v1/auth/signin')
+        .send({
+          email: 'tolaniabassgmail.com',
+          password: 'tolaniabass',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.have.property('status').to.equals(400);
+
+
+          done();
+        });
+    });
+
+
+    it('it should check for unregistered email and wrong password ', (done) => {
+      chai
+        .request(server)
+        .post('/api/v1/auth/signin')
+        .send({
+          email: 'yyysttt@gmail.com',
+          password: 'tolaniabass',
+        })
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.should.have
+            .property('responseMessage')
+            .to.equals('Wrong Email and Password Combination. Please Check your credentials');
+          done();
+        });
+    });
+  });
 });

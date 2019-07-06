@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import config from '../../config/index';
+import passwordValidator from '../comparePassword';
 import queryProvider from '../queries';
 
 
@@ -55,6 +56,52 @@ class UserService {
           resolve(data);
         })
         .catch(err => reject(err));
+    });
+  }
+
+  /**
+   * updatePasswordByToken
+   * @staticmethod
+   * @param  {string} email - newpassword
+   *  @param  {string} userpassword - token
+   * @return {string} res
+   */
+  static validateUserLogin(email, userpassword) {
+    return new Promise((resolve, reject) => {
+      this.findUserByEmail(email)
+        .then((res) => {
+          passwordValidator
+            .compare(userpassword, res.rows[0].password)
+            .then(() => {
+              console.log(res.rows[0]);
+              const token = jwt.sign({
+                id: res.rows[0].id,
+                email: res.rows[0].email,
+                isAdmin: res.rows[0].isadmin,
+              }, config.jwtSecretKey, {
+                expiresIn: 86400,
+              });
+
+              const data = {
+                token,
+                id: res.rows[0].id,
+                firstName: res.rows[0].firstname,
+                lastName: res.rows[0].lastname,
+                email: res.rows[0].email,
+                isAdmin: res.rows[0].isadmin,
+              };
+              resolve(data);
+            })
+            .catch((err) => {
+              const response = 'Wrong Password and Email Combination';
+              reject(response);
+            });
+        })
+        .catch((err) => {
+          console.log(err)
+          const response = 'Wrong Email and Password Combination. Please Check your credentials';
+          reject(response);
+        });
     });
   }
 }

@@ -32,6 +32,31 @@ class UserController {
         });
       });
   }
+
+  /**
+   * Creates a new user
+   * @staticmethod
+   * @param  {object} req - user object
+   * @param {object} res - Response object
+   * @return {json} res.json
+   */
+  static loginUser(req, res) {
+    const {
+      email,
+      password,
+    } = req.body;
+    UserService
+      .validateUserLogin(email, password)
+      .then(data => res.status(200).json({
+        status: 200,
+        data,
+        message: 'Authentication Successful',
+      }))
+      .catch(err => res.status(401).json({
+        status: 401,
+        responseMessage: err,
+      }));
+  }
 }
 
 export default UserController;

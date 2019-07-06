@@ -19,7 +19,7 @@ class queryProvider {
    */
   static findUserByEmailQuery(email) {
     return new Promise((resolve, reject) => {
-      const query = `SELECT * FROM users WHERE email = '${email}'`;
+      const query = `SELECT * FROM users WHERE email = '${email}' `;
       db.query(query)
         .then((result) => {
           if (!(result.rowCount)) {
@@ -32,7 +32,8 @@ class queryProvider {
             resolve(obj);
           }
         })
-        .catch(() => {
+        .catch((error) => {
+          console.log(error)
           err.responseMessage = 'Error Finding User';
           err.responseCode = '02';
           reject(err);
