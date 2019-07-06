@@ -20,7 +20,7 @@ describe('/POST REQUEST', () => {
       .request(server)
       .post('/api/v1/auth/signup')
       .send({
-        email: 'testeerr@gmail.com',
+        email: 'teesteerr@gmail.com',
         firstName: 'hello',
         lastName: 'Abass',
         phoneNumber: '08023461217',
