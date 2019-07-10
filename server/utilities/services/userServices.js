@@ -60,7 +60,7 @@ class UserService {
   }
 
   /**
-   * updatePasswordByToken
+   * validateUserLogin
    * @staticmethod
    * @param  {string} email - newpassword
    *  @param  {string} userpassword - token
@@ -73,7 +73,6 @@ class UserService {
           passwordValidator
             .compare(userpassword, res.rows[0].password)
             .then(() => {
-              console.log(res.rows[0]);
               const token = jwt.sign({
                 id: res.rows[0].id,
                 email: res.rows[0].email,
@@ -92,13 +91,14 @@ class UserService {
               };
               resolve(data);
             })
-            .catch((err) => {
+            .catch(() => {
+              /* istanbul ignore next-line */
               const response = 'Wrong Password and Email Combination';
+              /* istanbul ignore next-line */
               reject(response);
             });
         })
         .catch((err) => {
-          console.log(err)
           const response = 'Wrong Email and Password Combination. Please Check your credentials';
           reject(response);
         });

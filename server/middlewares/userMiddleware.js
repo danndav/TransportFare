@@ -56,6 +56,5 @@ class Middleware {
         message: err.details[0].message,
       }));
   }
-
 }
 export default Middleware;

@@ -28,6 +28,7 @@ app.listen(PORT, () => {
   if (process.env.NODE_ENV === 'test') {
     console.log(`The Dev server is running on port ${PORT}`);
   } else {
+    /* istanbul ignore next-line */
     console.log(`The production server is now running at ${PORT}`);
   }
 });
