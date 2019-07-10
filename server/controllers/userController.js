@@ -27,6 +27,7 @@ class UserController {
             message: 'User with this email exists already',
           });
         }
+        /* istanbul ignore next-line */
         return res.status(400).json({
           message: 'Could not create user',
         });
