@@ -10,6 +10,7 @@ CREATE TABLE users
     isadmin BOOLEAN NOT NULL
 );
 
+
 CREATE TABLE Buses
 (
     id SERIAL PRIMARY KEY,
@@ -19,5 +20,18 @@ CREATE TABLE Buses
     model VARCHAR (500) NOT NULL,
     year VARCHAR (500) NOT NULL,
     capacity VARCHAR (500) NOT NULL,
+    createdon VARCHAR (500) NOT NULL
+);
+
+CREATE TABLE Trips
+(
+    id SERIAL PRIMARY KEY,
+    createduser INTEGER NOT NULL REFERENCES users(id),
+    busid INTEGER NOT NULL,
+    origin VARCHAR (500) NOT NULL,
+    destination VARCHAR (500) NOT NULL,
+    tripdate VARCHAR (500) NOT NULL,
+    fare VARCHAR (500) NOT NULL,
+    status VARCHAR (500) NOT NULL,
     createdon VARCHAR (500) NOT NULL
 );
