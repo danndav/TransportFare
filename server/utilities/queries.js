@@ -1,5 +1,7 @@
 import bcrypt from 'bcrypt';
+import moment from 'moment';
 import db from './database/connect';
+
 
 const saltRounds = 10;
 const obj = {};
@@ -40,6 +42,70 @@ class queryProvider {
     });
   }
 
+
+  /**
+   * Find busid by user
+   * @staticmethod
+   * @param  {string} email - Request object
+   * @return {string} res
+   */
+  static findBusStatus(busid) {
+    console.log('printbus', busid);
+    return new Promise((resolve, reject) => {
+      const query = `SELECT * FROM Trips WHERE busid = ${busid} And status = 'active'`;
+      db.query(query)
+        .then((result) => {
+          console.log('theeee', result);
+          if (result.rowCount >= 1) {
+            err.responseMessage = 'bus not available';
+            err.responseCode = '01';
+            reject(err);
+          } else {
+            obj.rowCount = result.rowCount;
+            obj.rows = result.rows;
+            resolve(obj);
+          }
+        })
+        .catch((error) => {
+          console.log('yea error', error);
+          err.responseMessage = 'Error Finding busid from trip';
+          err.responseCode = '02';
+          reject(err);
+        });
+    });
+  }
+
+
+  /**
+   * Find bus by userid
+   * @staticmethod
+   * @param  {string} email - Request object
+   * @return {string} res
+   */
+  static findBusByBusid(busid) {
+    return new Promise((resolve, reject) => {
+      console.log('busid', busid);
+      const query = `SELECT * FROM Buses WHERE id = ${busid} `;
+      db.query(query)
+        .then((result) => {
+          if (result.rowCount === 0) {
+            err.Message = 'bus does not exist';
+            reject(err);
+          } else {
+            obj.rowCount = result.rowCount;
+            obj.rows = result.rows;
+            resolve(obj);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          err.responseMessage = 'Error Finding Bus';
+          err.responseCode = '02';
+          reject(err);
+        });
+    });
+  }
+
   /**
    * Find bus by plate number
    * @staticmethod
@@ -61,7 +127,7 @@ class queryProvider {
             resolve(obj);
           }
         })
-        .catch((error) => {
+        .catch(() => {
           err.responseMessage = 'Error Finding Bus';
           err.responseCode = '02';
           reject(err);
@@ -123,34 +189,31 @@ class queryProvider {
   }
 
   /**
-   * Find account fromdatabase
+   * Delete user by email
    * @staticmethod
    * @param  {string} email - Request object
    * @return {string} res
    */
-  static findaccountQuery(accountnumber) {
+  static deleteTripByBusid(busid) {
     return new Promise((resolve, reject) => {
-      const query = `SELECT * FROM accounts WHERE accountnumber = '${accountnumber}'`;
-
+      const query = `DELETE FROM Trips WHERE busid = '${busid}'`;
       db.query(query)
         .then((result) => {
           if (result.rowCount === 0) {
-            err.responseMessage = 'Account does not exist';
-
-            reject(err);
+            const message = 'busid does not exist';
+            reject(message);
           } else if (result.rowCount >= 1) {
-            obj.rowCount = result.rowCount;
-            obj.rows = result.rows;
-            resolve(obj);
+            const response = 'bus Deleted';
+            resolve(response);
           }
         })
-        .catch(() => {
-          err.responseMessage = 'Error Finding All User accounts';
-          err.responseCode = '02';
-          reject(err);
+        .catch((error) => {
+          const messager = 'Error Finding bus';
+          reject(error);
         });
     });
   }
+
 
   /**
    * save new user
@@ -160,7 +223,12 @@ class queryProvider {
    */
   static saveUserQuery(body) {
     const {
-      email, firstName, lastName, password, phoneNumber, isAdmin,
+      email,
+      firstName,
+      lastName,
+      password,
+      phoneNumber,
+      isAdmin,
     } = body;
 
     const today = new Date();
@@ -238,6 +306,134 @@ class queryProvider {
             .catch((e) => {
               reject(e);
             });
+        });
+    });
+  }
+
+
+  /**
+   * Save Trip Query
+   * @staticmethod
+   * @param  {string} body - Request object
+   * @param  {string} userid - Request object
+   * @return {string} res
+   */
+  static saveTripQuery(body, userid) {
+    const {
+      busId,
+      origin,
+      destination,
+      tripDate,
+      fare,
+      status,
+    } = body;
+
+    console.log('body', body);
+
+    const today = new Date();
+    const date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+    const time = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
+    const createdAt = `${date} ${time}`;
+    const tripDateformat = moment(tripDate).format('DD-MM-YYYY');
+
+    return new Promise((resolve, reject) => {
+      this.findBusByBusid(busId)
+        .then((res) => {
+          console.log('ressss', res);
+          console.log('second', busId);
+          this.findBusStatus(busId).then((resp) => {
+            console.log('ressssp', resp);
+            console.log('third', busId);
+            console.log('busidddd', busId);
+            console.log('print res status', res.rows);
+            const queryBody = `
+                INSERT INTO Trips(createduser, busid, origin, destination, tripdate, fare, status, createdon)
+      VALUES ( ${userid},'${busId}','${origin}', '${destination}','${tripDateformat}','${fare}','${status}','${createdAt}') returning * `;
+            db.query(queryBody)
+              .then((result) => {
+                if (result.rowCount >= 1) {
+                  resolve(result);
+                } else if (result.rowCount === 0) {
+                  const response = 'Could Not Save Trip';
+                  reject(response);
+                }
+              })
+              .catch((e) => {
+                console.log('firsterror', e);
+                reject(e);
+              });
+          }).catch(() => {
+            const obj1 = {};
+            obj1.status = 400;
+            obj1.Message = 'This bus id already assign to a trip';
+            reject(obj1);
+          });
+        })
+        .catch((error) => {
+          err.status = 400;
+          err.Message = 'this bus id does not exist';
+          reject(error);
+        });
+    });
+  }
+
+  /**
+   * Find all user
+   * @staticmethod
+   * @param  {string} id - Request object
+   * @return {string} res
+   */
+  static findAllTripsQuery() {
+    return new Promise((resolve, reject) => {
+      const query = 'SELECT * FROM Trips';
+      db.query(query)
+        .then((result) => {
+          if (!(result.rowCount)) {
+            err.responseMessage = 'Trips Array Empty';
+            err.responseCode = '01';
+            reject(err);
+          } else if (result.rowCount) {
+            obj.rowCount = result.rowCount;
+            obj.rows = result.rows;
+            resolve(obj);
+          }
+        })
+        .catch(() => {
+          err.responseMessage = 'Error Finding All Trips';
+          err.responseCode = '02';
+          reject(err);
+        });
+    });
+  }
+
+
+  /**
+   * Update Trips Status Query
+   * @staticmethod
+   * @param  {string} Tripsid - Request object
+   * @param  {string} body - Request object
+   * @return {string} res
+   */
+  static updateTripStatusQuery(id, body) {
+    const {
+      status,
+    } = body;
+    return new Promise((resolve, reject) => {
+      const queryBody = `UPDATE Trips SET status = '${status}' WHERE id = '${id}' returning * `;
+      db.query(queryBody)
+        .then((result) => {
+          if (result.rowCount === 0) {
+            const response = 'Trips does not exist';
+            reject(response);
+          } else if (result.rowCount >= 1) {
+            obj.rowCount = result.rowCount;
+            obj.rows = result.rows;
+            resolve(obj);
+          }
+        })
+        .catch(() => {
+          const error = 'Error Finding trip';
+          reject(error);
         });
     });
   }

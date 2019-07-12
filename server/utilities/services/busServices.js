@@ -30,7 +30,10 @@ class BusServices {
           };
           resolve(data);
         })
-        .catch(err => reject(err));
+        .catch((err) => {
+ console.log('err1', err);
+           return reject(err);
+          });
     });
   }
 }

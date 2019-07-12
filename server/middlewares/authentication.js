@@ -39,7 +39,7 @@ class Authorization {
       const token = req.headers.authorization.split(' ')[1];
       const decoded = Helper.verifyToken(token);
       req.userData = decoded;
-      if (req.userData.isadmin === false) {
+      if (req.userData.isAdmin === false) {
         return res.status(403).send({
           status: res.statusCode,
           error: 'You are not authorized to perform this action',
