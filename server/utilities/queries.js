@@ -328,7 +328,6 @@ class queryProvider {
       status,
     } = body;
 
-    console.log('body', body);
 
     const today = new Date();
     const date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
