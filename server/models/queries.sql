@@ -33,5 +33,21 @@ CREATE TABLE Trips
     tripdate VARCHAR (500) NOT NULL,
     fare VARCHAR (500) NOT NULL,
     status VARCHAR (500) NOT NULL,
+    capacity VARCHAR (500) NOT NULL,
+    createdon VARCHAR (500) NOT NULL
+);
+
+
+CREATE TABLE Bookings
+(
+    id SERIAL PRIMARY KEY,
+    createduser INTEGER NOT NULL,
+    tripid INTEGER NOT NULL,
+    busid INTEGER NOT NULL,
+    tripdate VARCHAR (500) NOT NULL,
+    seatnumber VARCHAR (500) NOT NULL,
+    firstname VARCHAR (500) NOT NULL,
+    lastname VARCHAR (500) NOT NULL,
+    email VARCHAR (500) NOT NULL,
     createdon VARCHAR (500) NOT NULL
 );
