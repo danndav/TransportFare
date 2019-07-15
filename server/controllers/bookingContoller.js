@@ -44,6 +44,27 @@ class BookingController {
       }))
       .catch(err => res.status(400).json(err));
   }
+
+  /**
+   * View all Bookings
+   * @staticmethod
+   * @param  {object} req - Booking object export default BookingController
+   * @param {object} res - Response object
+   * @return {json} res.json
+   */
+  static DeleteUserBooking(req, res) {
+    const userId = req.userData.id;
+    const typeofUser = req.userData.isAdmin;
+    const bookingId = req.params.id;
+    BookingService
+      .DeleteBooking(typeofUser, userId, bookingId)
+      .then(response => res.status(200).json({
+        status: 200,
+        message: 'Successfully Deleted Booking',
+        data: response.rows,
+      }))
+      .catch(err => res.status(400).json(err));
+  }
 }
 
 export default BookingController;

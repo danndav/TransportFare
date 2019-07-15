@@ -12,7 +12,7 @@ import Authorization from '../middlewares/authentication';
 
 const { createUser, loginUser } = UserController;
 const { createBus } = BusController;
-const { createBooking, viewAllBookings } = BookingContoller;
+const { createBooking, viewAllBookings, DeleteUserBooking } = BookingContoller;
 const { createTrip, viewAllTrips, updateTripStatus } = TripController;
 const { userSignupValidate, userLoginValidate } = UserMiddleware;
 const { BusCreateValidate } = BusMiddleware;
@@ -29,10 +29,11 @@ router.post('/auth/signup', userSignupValidate, createUser);
 router.post('/auth/signin/', userLoginValidate, loginUser);
 router.post('/buses', verifyAdmin, BusCreateValidate, createBus);
 router.post('/trips', verifyAdmin, TripCreateValidate, createTrip);
-router.get('/trips', verifyAdmin, viewAllTrips);
+router.get('/trips', verifyAdmin && verifyUser, viewAllTrips);
 router.patch('/trips/:id', verifyAdmin, TripUpdateStatus, updateTripStatus);
 router.post('/bookings', verifyAdmin && verifyUser, BookingCreateValidate, createBooking);
 router.get('/bookings', verifyAdmin && verifyUser, viewAllBookings);
+router.delete('/bookings/:id', verifyAdmin && verifyUser, DeleteUserBooking);
 
 
 export default router;

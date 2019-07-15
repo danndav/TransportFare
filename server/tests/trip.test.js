@@ -12,8 +12,8 @@ let userToken = '';
 
 
 before(() => {
-  const busidtest = 2;
-  return queryProivider.deleteTripByBusid(busidtest).then((res) => {}).catch(() => {});
+  const busId = 18;
+  return queryProivider.deleteTripByBusid(busId).then((res) => {}).catch(() => {});
 });
 
 before(() => {
@@ -63,7 +63,7 @@ describe('UNIT TESTS TO CREATE Trip', () => {
           tripDate: '3-10-2019',
           fare: '100',
           status: 'active',
-          busId: 2,
+          busId: 18,
         })
         .end((err, res) => {
           res.should.have.status(201);
@@ -72,6 +72,7 @@ describe('UNIT TESTS TO CREATE Trip', () => {
           res.body.should.have
             .property('message')
             .to.equals('New Trip created successfully');
+
           done();
         });
     });
@@ -105,7 +106,7 @@ describe('UNIT TESTS TO CREATE Trip', () => {
           tripDate: '3-10-2019',
           fare: '100',
           status: 'active',
-          busId: 2,
+          busId: 18,
         })
         .end((err, res) => {
           res.should.have.status(401);
@@ -130,7 +131,7 @@ describe('UNIT TESTS TO CREATE Trip', () => {
           tripDate: '3-10-2019',
           fare: '100',
           status: 'activ',
-          busId: 2,
+          busId: 18,
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -208,13 +209,13 @@ describe('UNIT TESTS FOR Trips', () => {
       chai
         .request(server)
         .get('/api/v1/trips/')
-        .set('authorization', `Bearer ${userToken}`)
+        .set('authorization', `Bearer ${111}`)
         .end((err, res) => {
-          res.should.have.status(403);
-          res.body.should.have.property('status').to.equals(403);
+          res.should.have.status(401);
+          res.body.should.have.property('status').to.equals(401);
           res.body.should.have
             .property('error')
-            .to.equals('You are not authorized to perform this action');
+            .to.equals('user not found, please register to perform this action');
 
 
           done();
