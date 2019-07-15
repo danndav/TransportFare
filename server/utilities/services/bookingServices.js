@@ -44,5 +44,24 @@ class BookingService {
         .catch(err => reject(err));
     });
   }
+
+  /**
+   * view all Booking created
+   * @staticmethod
+   * @return {string} res
+   */
+  static viewAllCreatedBookings(typeofUser, userId) {
+    return new Promise((resolve, reject) => {
+      if (typeofUser === true) {
+        queryProvider.findAllBookingsQuery()
+          .then(response => resolve(response))
+          .catch(err => reject(err));
+      } else {
+        queryProvider.findAllmyBookingQuery(userId)
+          .then(response => resolve(response))
+          .catch(err => reject(err));
+      }
+    });
+  }
 }
 export default BookingService;
