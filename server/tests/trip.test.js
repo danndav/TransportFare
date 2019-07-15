@@ -66,13 +66,12 @@ describe('UNIT TESTS TO CREATE Trip', () => {
           busId: 2,
         })
         .end((err, res) => {
-          // res.should.have.status(201);
-          // res.body.should.have.property('status').to.equals(201);
-          // res.body.should.have.property('data').to.be.an('object');
-          // res.body.should.have
-          //   .property('message')
-          //   .to.equals('New Trip created successfully');
-          console.log(res);
+          res.should.have.status(201);
+          res.body.should.have.property('status').to.equals(201);
+          res.body.should.have.property('data').to.be.an('object');
+          res.body.should.have
+            .property('message')
+            .to.equals('New Trip created successfully');
           done();
         });
     });
@@ -225,7 +224,7 @@ describe('UNIT TESTS FOR Trips', () => {
 
   describe('/PATCH REQUEST', () => {
     it('it should patch trip ', (done) => {
-      const id = 1;
+      const id = 2;
       chai
         .request(server)
         .patch(`/api/v1/trips/${id}`)
