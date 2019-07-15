@@ -63,5 +63,24 @@ class BookingService {
       }
     });
   }
+
+  /**
+   *Delete Booking created
+   * @staticmethod
+   * @return {string} res
+   */
+  static DeleteBooking(typeofUser, userId, bookingId) {
+    return new Promise((resolve, reject) => {
+      if (typeofUser === true) {
+        queryProvider.deleteTripByBusid(bookingId)
+          .then(response => resolve(response))
+          .catch(err => reject(err));
+      } else {
+        queryProvider.UserdeleteBookingByid(userId, bookingId)
+          .then(response => resolve(response))
+          .catch(err => reject(err));
+      }
+    });
+  }
 }
 export default BookingService;

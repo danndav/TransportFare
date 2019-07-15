@@ -395,6 +395,64 @@ class queryProvider {
     });
   }
 
+
+  /**
+   * Delete user by email
+   * @staticmethod
+   * @param  {string} email - Request object
+   * @return {string} res
+   */
+  static deleteBookingByid(bookingId) {
+    return new Promise((resolve, reject) => {
+      const query = `DELETE FROM Bookings WHERE id = '${bookingId}'`;
+      db.query(query)
+        .then((result) => {
+          if (result.rowCount === 0) {
+            const message = {};
+            message.status = '400';
+            message.error = 'booking id does not exist';
+            reject(message);
+          } else if (result.rowCount >= 1) {
+            const response = 'booking Deleted';
+            resolve(response);
+          }
+        })
+        .catch((error) => {
+          const messager = 'Error Finding Booking Id';
+          reject(error);
+        });
+    });
+  }
+
+  /**
+   * Delete user by email
+   * @staticmethod
+   * @param  {string} email - Request object
+   * @return {string} res
+   */
+  static UserdeleteBookingByid(userId, bookingId) {
+    return new Promise((resolve, reject) => {
+      const query = `DELETE FROM Bookings WHERE id = '${bookingId}' and createduser='${userId}'`;
+      db.query(query)
+        .then((result) => {
+          if (result.rowCount === 0) {
+            const message = {};
+            message.status = '400';
+            message.error = 'booking id does not exist';
+            reject(message);
+          } else if (result.rowCount >= 1) {
+            const response = 'booking Deleted';
+            resolve(response);
+          }
+        })
+        .catch((error) => {
+          const messager = 'Error Finding Booking Id';
+          reject(error);
+        });
+    });
+  }
+
+
   /**
    * Delete user by email
    * @staticmethod
