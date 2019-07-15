@@ -23,6 +23,27 @@ class BookingController {
       }))
       .catch(err => res.status(400).json(err));
   }
+
+
+  /**
+   * View all Bookings
+   * @staticmethod
+   * @param  {object} req - Booking object export default BookingController
+   * @param {object} res - Response object
+   * @return {json} res.json
+   */
+  static viewAllBookings(req, res) {
+    const userId = req.userData.id;
+    const typeofUser = req.userData.isAdmin;
+    BookingService
+      .viewAllCreatedBookings(typeofUser, userId)
+      .then(response => res.status(200).json({
+        status: 200,
+        message: 'Successfully fetched all Bookings',
+        data: response.rows,
+      }))
+      .catch(err => res.status(400).json(err));
+  }
 }
 
 export default BookingController;

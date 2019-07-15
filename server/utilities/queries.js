@@ -337,6 +337,65 @@ class queryProvider {
   }
 
   /**
+   * Find all Booking
+   * @staticmethod
+   * @param  {string} id - Request object
+   * @return {string} res
+   */
+  static findAllmyBookingQuery(users) {
+    return new Promise((resolve, reject) => {
+      const query = `SELECT * FROM Bookings WHERE createduser = '${users}'`;
+      db.query(query)
+        .then((result) => {
+          if (!(result.rowCount)) {
+            err.responseMessage = 'Bookings Array Empty';
+            err.responseCode = '01';
+            reject(err);
+          } else if (result.rowCount) {
+            obj.rowCount = result.rowCount;
+            obj.rows = result.rows;
+            resolve(obj);
+          }
+        })
+        .catch(() => {
+          err.responseMessage = 'Error Finding All Trips';
+          err.responseCode = '02';
+          reject(err);
+        });
+    });
+  }
+
+
+  /**
+   * Find all Booking
+   * @staticmethod
+   * @param  {string} id - Request object
+   * @return {string} res
+   */
+  static findAllBookingsQuery() {
+    return new Promise((resolve, reject) => {
+      const query = 'SELECT * FROM Bookings ';
+      db.query(query)
+        .then((result) => {
+          if (!(result.rowCount)) {
+            err.responseMessage = 'Bookings Array Empty';
+            err.responseCode = '01';
+            reject(err);
+          } else if (result.rowCount) {
+            obj.rowCount = result.rowCount;
+            obj.rows = result.rows;
+            resolve(obj);
+          }
+        })
+        .catch(() => {
+          err.responseMessage = 'Error Finding All Trips';
+          err.responseCode = '02';
+          reject(err);
+        });
+    });
+  }
+
+  /**
    * Delete user by email
    * @staticmethod
    * @param  {string} email - Request object

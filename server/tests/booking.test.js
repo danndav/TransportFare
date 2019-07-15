@@ -42,8 +42,8 @@ before(() => {
       .request(server)
       .post('/api/v1/auth/signin')
       .send({
-        email: 'isreal@gmail.com',
-        password: 'isreal',
+        email: 'seun@gmail.com',
+        password: 'seun',
       })
       .end((err, res) => {
         userToken = res.body.data.token;
@@ -108,7 +108,7 @@ describe('UNIT TESTS TO CREATE booking', () => {
           res.body.should.have.property('status').to.equals(401);
           res.body.should.have
             .property('error')
-            .to.equals('Authentication Failed');
+            .to.equals('user not found, please register to perform this action');
 
           done();
         });
@@ -169,109 +169,42 @@ describe('UNIT TESTS TO CREATE booking', () => {
   });
 });
 
-// // describe('UNIT TESTS FOR bookings', () => {
-// //   /*
-// //      * Test the /GET route
-// //      */
-// //   describe('/GET REQUEST', () => {
-// //     it('it should GET all bookingss', (done) => {
-// //       chai
-// //         .request(server)
-// //         .get('/api/v1/bookings/')
-// //         .set('authorization', `Bearer ${adminToken}`)
-// //         .end((err, res) => {
-// //           res.body.should.have
-// //             .property('message')
-// //             .to.equals('Successfully fetched all bookings');
-// //           res.should.have.property('status').to.equals(200);
-// //           res.body.should.have.property('data').to.be.an('array');
-// //           done();
-// //         });
-// //     });
-
-// //     it('it should not feched with unauthorised user', (done) => {
-// //       chai
-// //         .request(server)
-// //         .get('/api/v1/bookings/')
-// //         .set('authorization', `Bearer ${userToken}`)
-// //         .end((err, res) => {
-// //           res.should.have.status(403);
-// //           res.body.should.have.property('status').to.equals(403);
-// //           res.body.should.have
-// //             .property('error')
-// //             .to.equals('You are not authorized to perform this action');
+describe('UNIT TESTS FOR bookings', () => {
+  /*
+     * Test the /GET route
+     */
+  describe('/GET REQUEST', () => {
+    it('it should GET all bookings by admin', (done) => {
+      chai
+        .request(server)
+        .get('/api/v1/bookings/')
+        .set('authorization', `Bearer ${adminToken}`)
+        .end((err, res) => {
+          res.body.should.have
+            .property('message')
+            .to.equals('Successfully fetched all Bookings');
+          res.should.have.property('status').to.equals(200);
+          res.body.should.have.property('data').to.be.an('array');
+          done();
+        });
+    });
 
 
-// //           done();
-// //         });
-// //     });
-// //   });
-
-// //   describe('/PATCH REQUEST', () => {
-// //     it('it should patch booking ', (done) => {
-// //       const id = 1;
-// //       chai
-// //         .request(server)
-// //         .patch(`/api/v1/bookings/${id}`)
-// //         .set('authorization', `Bearer ${adminToken}`)
-// //         .send({
-// //           status: 'active',
-// //         })
-// //         .end((err, res) => {
-// //           res.should.have.status(200);
-// //           res.body.should.have.property('status').to.equals(200);
-// //           res.body.should.have.property('data').to.be.an('object');
-// //           res.body.should.have
-// //             .property('message')
-// //             .to.equals('booking Status Updated Successfully');
+    it('it should not feched with unauthorised user', (done) => {
+      chai
+        .request(server)
+        .get('/api/v1/bookings/')
+        .set('authorization', `Bearer ${111}`)
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.should.have.property('status').to.equals(401);
+          res.body.should.have
+            .property('error')
+            .to.equals('user not found, please register to perform this action');
 
 
-// //           done();
-// //         });
-// //     });
-
-// //     it('it should not patch unavailabe booking ', (done) => {
-// //       const id = 1234568;
-// //       chai
-// //         .request(server)
-// //         .patch(`/api/v1/bookings/${id}`)
-// //         .set('authorization', `Bearer ${adminToken}`)
-// //         .send({
-// //           status: 'active',
-// //         })
-// //         .end((err, res) => {
-// //           res.should.have.status(404);
-// //           res.body.should.have.property('status').to.equals(404);
-// //           res.body.should.have
-// //             .property('error')
-// //             .to.equals('This booking does not exist');
-
-
-// //           done();
-// //         });
-// //     });
-
-
-// //     it('it should not booking unauthorised', (done) => {
-// //       const id = 1;
-
-// //       chai
-// //         .request(server)
-// //         .patch(`/api/v1/bookings/${id}`)
-// //         .set('authorization', `Bearer ${3456}`)
-// //         .send({
-// //           status: 'active',
-// //         })
-// //         .end((err, res) => {
-// //           res.should.have.status(401);
-// //           res.body.should.have.property('status').to.equals(401);
-// //           res.body.should.have
-// //             .property('error')
-// //             .to.equals('Authentication Failed');
-
-
-// //           done();
-// //         });
-// //     });
-// //   });
-// });
+          done();
+        });
+    });
+  });
+});
