@@ -209,13 +209,13 @@ describe('UNIT TESTS FOR Trips', () => {
       chai
         .request(server)
         .get('/api/v1/trips/')
-        .set('authorization', `Bearer ${userToken}`)
+        .set('authorization', `Bearer ${111}`)
         .end((err, res) => {
-          res.should.have.status(403);
-          res.body.should.have.property('status').to.equals(403);
+          res.should.have.status(401);
+          res.body.should.have.property('status').to.equals(401);
           res.body.should.have
             .property('error')
-            .to.equals('You are not authorized to perform this action');
+            .to.equals('user not found, please register to perform this action');
 
 
           done();
