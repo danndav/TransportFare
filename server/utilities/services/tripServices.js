@@ -21,6 +21,7 @@ class TripServices {
         .saveTripQuery(body, userid)
         .then((res) => {
           const data = {
+            id: res.rows[0].id,
             createduser: res.rows[0].createduser,
             busId: res.rows[0].busid,
             origin: res.rows[0].origin,
@@ -46,6 +47,7 @@ class TripServices {
       queryProvider
         .findAllTripsQuery()
         .then(response => resolve(response))
+        /* istanbul ignore next-line */
         .catch(err => reject(err));
     });
   }
@@ -74,6 +76,48 @@ class TripServices {
               })
               .catch(err => reject(err));
       });
+  }
+
+       /**
+   * view all Trips by origin
+   * @staticmethod
+   * @return {string} res
+   */
+  static viewAllTripsbyOriginDestination(origin, destination) {
+    return new Promise((resolve, reject) => {
+      queryProvider
+        .viewAllTripsbyOriginDestinationQuery(origin, destination)
+        .then(response => resolve(response))
+        .catch(err => reject(err));
+    });
+  }
+
+     /**
+   * view all Trips by origin
+   * @staticmethod
+   * @return {string} res
+   */
+  static viewAllTripsOrigin(origin) {
+    return new Promise((resolve, reject) => {
+      queryProvider
+        .findAllTripsbyOriginQuery(origin)
+        .then(response => resolve(response))
+        .catch(err => reject(err));
+    });
+  }
+
+   /**
+   * view all Trips by destination
+   * @staticmethod
+   * @return {string} res
+   */
+  static viewAllTripsDestination(destination) {
+    return new Promise((resolve, reject) => {
+      queryProvider
+        .findAllTripsbyDestinationQuery(destination)
+        .then(response => resolve(response))
+        .catch(err => reject(err));
+    });
   }
 }
 

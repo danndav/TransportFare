@@ -221,6 +221,102 @@ describe('UNIT TESTS FOR Trips', () => {
           done();
         });
     });
+
+    describe('/GET REQUEST', () => {
+      it('it should GET all trips by origin', (done) => {
+        const origin = 'lekki';
+        chai
+          .request(server)
+          .get(`/api/v1/trips/search/?origin=${origin}`)
+          .set('authorization', `Bearer ${adminToken}`)
+          .end((err, res) => {
+            res.body.should.have
+              .property('message')
+              .to.equals('Successfully fetched all Trips by origin');
+            res.should.have.property('status').to.equals(200);
+            res.body.should.have.property('data').to.be.an('array');
+
+            done();
+          });
+      });
+      it('it should GET all trips by destination', (done) => {
+        const destination = 'ikeja';
+        chai
+          .request(server)
+          .get(`/api/v1/trips/search/?destination=${destination}`)
+          .set('authorization', `Bearer ${adminToken}`)
+          .end((err, res) => {
+            res.body.should.have
+              .property('message')
+              .to.equals('Successfully fetched all Trips by Destination');
+            res.should.have.property('status').to.equals(200);
+            res.body.should.have.property('data').to.be.an('array');
+            done();
+          });
+      });
+      it('it should GET all trips by origin and Destination', (done) => {
+        const origin = 'lekki';
+        const destination = 'ikeja';
+        chai
+          .request(server)
+          .get(`/api/v1/trips/search/?origin=${origin}&destination=${destination}`)
+          .set('authorization', `Bearer ${adminToken}`)
+          .end((err, res) => {
+            res.body.should.have
+              .property('message')
+              .to.equals('Successfully fetched all Trips by Origin and Destination');
+            res.should.have.property('status').to.equals(200);
+            res.body.should.have.property('data').to.be.an('array');
+            done();
+          });
+      });
+
+
+      it('it should not GET all trips by origin', (done) => {
+        const origin = 'lekkii';
+        chai
+          .request(server)
+          .get(`/api/v1/trips/search/?origin=${origin}`)
+          .set('authorization', `Bearer ${adminToken}`)
+          .end((err, res) => {
+            res.body.should.have
+              .property('Message')
+              .to.equals('Trips origin cant be  fetched');
+            res.should.have.property('status').to.equals(400);
+
+            done();
+          });
+      });
+      it('it should not GET all trips by destination', (done) => {
+        const destination = 'ikejaa';
+        chai
+          .request(server)
+          .get(`/api/v1/trips/search/?destination=${destination}`)
+          .set('authorization', `Bearer ${adminToken}`)
+          .end((err, res) => {
+            res.body.should.have
+              .property('Message')
+              .to.equals('Trips destination cant be fetched');
+            res.should.have.property('status').to.equals(400);
+            done();
+          });
+      });
+      it('it should not GET all trips by origin and Destination', (done) => {
+        const origin = 'lekkiw';
+        const destination = 'ikejaw';
+        chai
+          .request(server)
+          .get(`/api/v1/trips/search/?origin=${origin}&destination=${destination}`)
+          .set('authorization', `Bearer ${adminToken}`)
+          .end((err, res) => {
+            res.body.should.have
+              .property('Message')
+              .to.equals('Trips destination and origin cant be fetched');
+            res.should.have.property('status').to.equals(400);
+            done();
+          });
+      });
+    });
   });
 
   describe('/PATCH REQUEST', () => {

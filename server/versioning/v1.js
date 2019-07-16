@@ -13,10 +13,12 @@ api.get('/', (req, res) => res.send({
 
 
 api.use((req, res, next) => {
+  /* istanbul ignore next-line */
   res.header('Access-Control-Allow-Origin', '*');
   res.header(
     'Access-Control-Allow-Headers',
     'Origin, X-Requested-With, Content-Type, Accept',
+    /* istanbul ignore next-line */
   );
   next();
 });

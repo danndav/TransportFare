@@ -20,6 +20,7 @@ class BusServices {
         .saveBusQuery(body, userid)
         .then((res) => {
           const data = {
+            id: res.rows[0].id,
             userid: res.rows[0].userid,
             numberPlate: res.rows[0].number_plate,
             manufacturer: res.rows[0].manufacturer,
