@@ -44,7 +44,7 @@ describe('UNIT TESTS FOR Buses', () => {
         .post('/api/v1/buses')
         .set('authorization', `Bearer ${userToken}`)
         .send({
-          numberPlate: 'test123test',
+          number_plate: 'test123test',
           manufacturer: 'toyota',
           model: 'camry',
           year: '2015',
@@ -87,7 +87,7 @@ describe('UNIT TESTS FOR Buses', () => {
         .post('/api/v1/buses')
         .set('authorization', `Bearer ${userToken}`)
         .send({
-          numberPlate: 'test123test',
+          number_plate: 'test123test',
           manufacturer: 'toyota',
           model: 'camry',
           year: '2015',
@@ -111,7 +111,7 @@ describe('UNIT TESTS FOR Buses', () => {
         .post('/api/v1/buses')
         .set('authorization', `Bearer ${23456}`)
         .send({
-          numberPlate: 'test123test',
+          number_plate: 'test123test',
           manufacturer: 'toyota',
           model: 'camry',
           year: '2015',
@@ -135,7 +135,7 @@ describe('UNIT TESTS FOR Buses', () => {
         .post('/api/v1/buses')
         .set('authorization', `Bearer ${userToken}`)
         .send({
-          numberPlate: 'test123test',
+          number_plate: 'test123test',
           manufacturer: 'toyota',
           model: 'camry',
           year: '2015',

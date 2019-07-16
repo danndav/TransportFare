@@ -9,14 +9,15 @@ chai.should();
 
 let adminToken = '';
 let userToken = '';
+let BookId = '';
 
 before(() => {
-  const tripId = 2;
-  return queryProivider.deleteTripIdFromBooking(tripId).then((res) => {}).catch(() => {});
+  const trip_id = 2;
+  return queryProivider.deleteTripIdFromBooking(trip_id).then((res) => {}).catch(() => {});
 });
 before(() => {
-  const seatNumber = 10;
-  return queryProivider.deleteSeatNumber(seatNumber).then((res) => {}).catch(() => {});
+  const seat_number = 10;
+  return queryProivider.deleteSeatNumber(seat_number).then((res) => {}).catch(() => {});
 });
 
 
@@ -62,16 +63,18 @@ describe('UNIT TESTS TO CREATE booking', () => {
         .post('/api/v1/bookings')
         .set('authorization', `Bearer ${adminToken}`)
         .send({
-          tripId: 2,
-          seatNumber: 10,
+          trip_id: 2,
+          seat_number: 10,
         })
         .end((err, res) => {
+          BookId = res.body.data.id;
           res.should.have.status(201);
           res.body.should.have.property('status').to.equals(201);
           res.body.should.have.property('data').to.be.an('object');
           res.body.should.have
             .property('message')
             .to.equals('New Booking created successfully');
+          console.log(res);
           done();
         });
     });
@@ -100,8 +103,8 @@ describe('UNIT TESTS TO CREATE booking', () => {
         .post('/api/v1/bookings')
         .set('authorization', `Bearer ${23456}`)
         .send({
-          tripId: 2,
-          seatNumber: 10,
+          trip_id: 2,
+          seat_number: 10,
         })
         .end((err, res) => {
           res.should.have.status(401);
@@ -121,8 +124,8 @@ describe('UNIT TESTS TO CREATE booking', () => {
         .post('/api/v1/bookings')
         .set('authorization', `Bearer ${adminToken}`)
         .send({
-          tripId: 'u',
-          seatNumber: 10,
+          trip_id: 'u',
+          seat_number: 10,
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -139,8 +142,8 @@ describe('UNIT TESTS TO CREATE booking', () => {
         .post('/api/v1/bookings')
         .set('authorization', `Bearer ${adminToken}`)
         .send({
-          tripId: 2,
-          seatNumber: 10,
+          trip_id: 2,
+          seat_number: 10,
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -194,13 +197,13 @@ describe('UNIT TESTS FOR bookings', () => {
 
   describe('/PATCH REQUEST', () => {
     it('it should patch Booking ', (done) => {
-      const tripId = 2;
+      const trip_id = 2;
       chai
         .request(server)
-        .patch(`/api/v1/bookings/${tripId}`)
+        .patch(`/api/v1/bookings/${trip_id}`)
         .set('authorization', `Bearer ${userToken}`)
         .send({
-          seatNumber: 9,
+          seat_number: 9,
         })
         .end((err, res) => {
           res.should.have.status(200);
@@ -216,13 +219,13 @@ describe('UNIT TESTS FOR bookings', () => {
     });
 
     it('it should not patch unavailabe booking ', (done) => {
-      const tripId = 1234;
+      const trip_id = 1234;
       chai
         .request(server)
-        .patch(`/api/v1/bookings/${tripId}`)
+        .patch(`/api/v1/bookings/${trip_id}`)
         .set('authorization', `Bearer ${userToken}`)
         .send({
-          seatNumber: 9,
+          seat_number: 9,
         })
         .end((err, res) => {
           res.should.have.status(404);
@@ -238,13 +241,13 @@ describe('UNIT TESTS FOR bookings', () => {
 
 
     it('it should not patch bookings', (done) => {
-      const tripId = 2;
+      const trip_id = 2;
       chai
         .request(server)
-        .patch(`/api/v1/bookings/${tripId}`)
+        .patch(`/api/v1/bookings/${trip_id}`)
         .set('authorization', `Bearer ${3456}`)
         .send({
-          seatNumber: 9,
+          seat_number: 9,
         })
         .end((err, res) => {
           res.should.have.status(401);
@@ -262,7 +265,6 @@ describe('UNIT TESTS FOR bookings', () => {
 
   // describe('/DELETE REQUEST', () => {
   //   it('it should delete Booking ', (done) => {
-  //     const BookId = user;
   //     chai
   //       .request(server)
   //       .delete(`/api/v1/bookings/${BookId}`)
@@ -274,24 +276,23 @@ describe('UNIT TESTS FOR bookings', () => {
   //           .property('message')
   //           .to.equals('Booking deleted Successfully');
 
-
+  //         console.log('worldddd', res, BookId);
   //         done();
   //       });
   //   });
 
 
-  //   it('it should not delete unfound  account ', (done) => {
-  //     const accounNumber = 234567;
+  //   it('it should not delete unfound  Booking ', (done) => {
   //     chai
   //       .request(server)
-  //       .delete(`/api/v1/accounts/${accounNumber}`)
+  //       .delete(`/api/v1/accounts/${555}`)
   //       .set('authorization', `Bearer ${userToken}`)
   //       .end((err, res) => {
   //         res.should.have.status(404);
   //         res.body.should.have
   //           .property('error')
-  //           .to.equals('This account does not exist');
-
+  //           .to.equals('This Booking does not exist');
+  //         console.log(res);
   //         done();
   //       });
   //   });

@@ -22,11 +22,11 @@ class TripServices {
         .then((res) => {
           const data = {
             id: res.rows[0].id,
-            createduser: res.rows[0].createduser,
-            busId: res.rows[0].busid,
+            created_user: res.rows[0].createduser,
+            bus_id: res.rows[0].busid,
             origin: res.rows[0].origin,
             destination: res.rows[0].destination,
-            tripDate: res.rows[0].tripdate,
+            trip_date: res.rows[0].tripdate,
             fare: res.rows[0].fare,
             status: res.rows[0].status,
           };

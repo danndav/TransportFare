@@ -60,10 +60,10 @@ describe('UNIT TESTS TO CREATE Trip', () => {
         .send({
           origin: 'testfrom',
           destination: 'testto',
-          tripDate: '3-10-2019',
+          trip_date: '3-10-2019',
           fare: '100',
           status: 'active',
-          busId: 18,
+          bus_id: 18,
         })
         .end((err, res) => {
           res.should.have.status(201);
@@ -103,10 +103,10 @@ describe('UNIT TESTS TO CREATE Trip', () => {
         .send({
           origin: 'testfrom',
           destination: 'testto',
-          tripDate: '3-10-2019',
+          trip_date: '3-10-2019',
           fare: '100',
           status: 'active',
-          busId: 18,
+          bus_id: 18,
         })
         .end((err, res) => {
           res.should.have.status(401);
@@ -128,10 +128,10 @@ describe('UNIT TESTS TO CREATE Trip', () => {
         .send({
           origin: 'testfrom',
           destination: 'testto',
-          tripDate: '3-10-2019',
+          trip_date: '3-10-2019',
           fare: '100',
           status: 'activ',
-          busId: 18,
+          bus_id: 18,
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -149,10 +149,10 @@ describe('UNIT TESTS TO CREATE Trip', () => {
         .send({
           origin: 'testfrom',
           destination: 'testto',
-          tripDate: '3-10-2019',
+          trip_date: '3-10-2019',
           fare: '100',
           status: 'active',
-          busId: 999,
+          bus_id: 999,
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -170,7 +170,7 @@ describe('UNIT TESTS TO CREATE Trip', () => {
         .send({
           origin: 'testfrom',
           destination: 'testto',
-          tripDate: '3-10-2019',
+          trip_date: '3-10-2019',
           fare: '100',
           status: 'activ',
           busId: 1,

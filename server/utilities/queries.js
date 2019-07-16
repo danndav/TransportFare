@@ -49,10 +49,10 @@ class queryProvider {
    * @param  {string} email - Request object
    * @return {string} res
    */
-  static findBusStatus(busid) {
-    console.log('printbus', busid);
+  static findBusStatus(bus_id) {
+    console.log('printbus', bus_id);
     return new Promise((resolve, reject) => {
-      const query = `SELECT * FROM Trips WHERE busid = ${busid} And status = 'active'`;
+      const query = `SELECT * FROM Trips WHERE busid = ${bus_id} And status = 'active'`;
       db.query(query)
         .then((result) => {
           console.log('theeee', result);
@@ -82,10 +82,10 @@ class queryProvider {
    * @param  {string} email - Request object
    * @return {string} res
    */
-  static findSeatNumberByTripid(tripid, seatnumber) {
-    console.log('printbuseee', tripid, seatnumber);
+  static findSeatNumberByTripid(trip_id, seat_number) {
+    console.log('printbuseee', trip_id, seat_number);
     return new Promise((resolve, reject) => {
-      const query = `SELECT * FROM Bookings WHERE tripid = '${tripid}' And seatnumber = '${seatnumber}'`;
+      const query = `SELECT * FROM Bookings WHERE tripid = '${trip_id}' And seatnumber = '${seat_number}'`;
       db.query(query)
         .then((result) => {
           console.log('theeee', result);
@@ -276,10 +276,9 @@ class queryProvider {
    * @param  {string} email - Request object
    * @return {string} res
    */
-  static findBusByBusid(busid) {
+  static findBusByBusid(bus_id) {
     return new Promise((resolve, reject) => {
-      console.log('busid', busid);
-      const query = `SELECT * FROM Buses WHERE id = ${busid}`;
+      const query = `SELECT * FROM Buses WHERE id = ${bus_id}`;
       db.query(query)
         .then((result) => {
           if (result.rowCount === 0) {
@@ -306,9 +305,9 @@ class queryProvider {
    * @param  {string} email - Request object
    * @return {string} res
    */
-  static findBusByplateNumberQuery(plateNumber) {
+  static findBusByplateNumberQuery(plate_number) {
     return new Promise((resolve, reject) => {
-      const query = `SELECT * FROM Buses WHERE number_plate = '${plateNumber}' `;
+      const query = `SELECT * FROM Buses WHERE number_plate = '${plate_number}' `;
       db.query(query)
         .then((result) => {
           if (!(result.rowCount)) {
@@ -362,9 +361,9 @@ class queryProvider {
    * @param  {string} email - Request object
    * @return {string} res
    */
-  static deleteBusByplateNumber(numberPlate) {
+  static deleteBusByplateNumber(number_plate) {
     return new Promise((resolve, reject) => {
-      const query = `DELETE FROM Buses WHERE number_plate = '${numberPlate}'`;
+      const query = `DELETE FROM Buses WHERE number_plate = '${number_plate}'`;
       db.query(query)
         .then((result) => {
           if (result.rowCount === 0) {
@@ -389,9 +388,9 @@ class queryProvider {
    * @param  {string} email - Request object
    * @return {string} res
    */
-  static deleteSeatNumber(seatNumber) {
+  static deleteSeatNumber(seat_number) {
     return new Promise((resolve, reject) => {
-      const query = `DELETE FROM Bookings WHERE seatnumber= '${seatNumber}'`;
+      const query = `DELETE FROM Bookings WHERE seatnumber= '${seat_number}'`;
       db.query(query)
         .then((result) => {
           if (result.rowCount === 0) {
@@ -416,9 +415,9 @@ class queryProvider {
    * @param  {string} email - Request object
    * @return {string} res
    */
-  static deleteTripIdFromBooking(tripid) {
+  static deleteTripIdFromBooking(trip_id) {
     return new Promise((resolve, reject) => {
-      const query = `DELETE FROM Bookings WHERE tripid = '${tripid}'`;
+      const query = `DELETE FROM Bookings WHERE tripid = '${trip_id}'`;
       db.query(query)
         .then((result) => {
           if (result.rowCount === 0) {
@@ -502,9 +501,9 @@ class queryProvider {
    * @param  {string} email - Request object
    * @return {string} res
    */
-  static deleteBookingByid(bookingId) {
+  static deleteBookingByid(booking_id) {
     return new Promise((resolve, reject) => {
-      const query = `DELETE FROM Bookings WHERE id = '${bookingId}'`;
+      const query = `DELETE FROM Bookings WHERE id = '${booking_id}'`;
       db.query(query)
         .then((result) => {
           if (result.rowCount === 0) {
@@ -530,9 +529,9 @@ class queryProvider {
    * @param  {string} email - Request object
    * @return {string} res
    */
-  static UserdeleteBookingByid(userId, bookingId) {
+  static UserdeleteBookingByid(user_id, booking_id) {
     return new Promise((resolve, reject) => {
-      const query = `DELETE FROM Bookings WHERE id = '${bookingId}' and createduser='${userId}'`;
+      const query = `DELETE FROM Bookings WHERE id = '${booking_id}' and createduser='${user_id}'`;
       db.query(query)
         .then((result) => {
           if (result.rowCount === 0) {
@@ -559,9 +558,9 @@ class queryProvider {
    * @param  {string} email - Request object
    * @return {string} res
    */
-  static deleteTripByBusid(busid) {
+  static deleteTripByBusid(bus_id) {
     return new Promise((resolve, reject) => {
-      const query = `DELETE FROM Trips WHERE busid = '${busid}'`;
+      const query = `DELETE FROM Trips WHERE busid = '${bus_id}'`;
       db.query(query)
         .then((result) => {
           if (result.rowCount === 0) {
@@ -589,17 +588,17 @@ class queryProvider {
   static saveUserQuery(body) {
     const {
       email,
-      firstName,
-      lastName,
+      first_name,
+      last_name,
       password,
-      phoneNumber,
-      isAdmin,
+      phone_number,
+      is_admin,
     } = body;
 
     const today = new Date();
     const date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
     const time = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
-    const createdAt = `${date} ${time}`;
+    const created_at = `${date} ${time}`;
 
 
     return new Promise((resolve, reject) => {
@@ -611,7 +610,7 @@ class queryProvider {
           bcrypt.hash(password, saltRounds).then((hash) => {
             const queryBody = `
                               INSERT INTO users(email,firstname, lastname, password, phonenumber, createdon, isadmin)
-                              VALUES ( '${email}','${firstName}', '${lastName}', '${hash}', '${phoneNumber}','${createdAt}', '${isAdmin}') returning * `;
+                              VALUES ( '${email}','${first_name}', '${last_name}', '${hash}', '${phone_number}','${created_at}', '${is_admin}') returning * `;
             db.query(queryBody)
               .then((result) => {
                 if (result.rowCount) {
@@ -636,9 +635,9 @@ class queryProvider {
    * @param  {string} userid - Request object
    * @return {string} res
    */
-  static saveBusQuery(body, userid) {
+  static saveBusQuery(body, user_id) {
     const {
-      numberPlate,
+      number_plate,
       manufacturer,
       model,
       year,
@@ -648,17 +647,17 @@ class queryProvider {
     const today = new Date();
     const date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
     const time = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
-    const createdAt = `${date} ${time}`;
+    const created_at = `${date} ${time}`;
 
     return new Promise((resolve, reject) => {
-      this.findBusByplateNumberQuery(numberPlate)
+      this.findBusByplateNumberQuery(number_plate)
         .then((error) => {
           reject(error);
         })
         .catch(() => {
           const queryBody = `
             INSERT INTO Buses(userid, number_plate, manufacturer, model, year, capacity, createdon)
-  VALUES (${userid}, '${numberPlate}', '${manufacturer}', '${model}', '${year}', '${capacity}', '${createdAt}') returning * `;
+  VALUES (${user_id}, '${number_plate}', '${manufacturer}', '${model}', '${year}', '${capacity}', '${created_at}') returning * `;
           db.query(queryBody)
             .then((result) => {
               if (result.rowCount >= 1) {
@@ -683,12 +682,12 @@ class queryProvider {
    * @param  {string} userid - Request object
    * @return {string} res
    */
-  static saveTripQuery(body, userid) {
+  static saveTripQuery(body, user_id) {
     const {
-      busId,
+      bus_id,
       origin,
       destination,
-      tripDate,
+      trip_date,
       fare,
       status,
     } = body;
@@ -697,19 +696,19 @@ class queryProvider {
     const today = new Date();
     const date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
     const time = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
-    const createdAt = `${date} ${time}`;
-    const tripDateformat = moment(tripDate).format('DD-MM-YYYY');
+    const created_at = `${date} ${time}`;
+    const trip_dateformat = moment(trip_date).format('DD-MM-YYYY');
 
     return new Promise((resolve, reject) => {
-      this.findBusByBusid(busId)
+      this.findBusByBusid(bus_id)
         .then((res) => {
           const {
             capacity,
           } = res.rows[0];
-          this.findBusStatus(busId).then(() => {
+          this.findBusStatus(bus_id).then(() => {
             const queryBody = `
                 INSERT INTO Trips(createduser, busid, origin, destination, tripdate, fare, status,capacity, createdon)
-      VALUES ( ${userid},'${busId}','${origin}', '${destination}','${tripDateformat}','${fare}','${status}','${capacity}','${createdAt}') returning * `;
+      VALUES ( ${user_id},'${bus_id}','${origin}', '${destination}','${trip_dateformat}','${fare}','${status}','${capacity}','${created_at}') returning * `;
             db.query(queryBody)
               .then((result) => {
                 if (result.rowCount >= 1) {
@@ -807,25 +806,25 @@ class queryProvider {
    * @param  {string} body - Request object
    * @return {string} res
    */
-  static updateSeatNumberQuery(tripId, body) {
+  static updateSeatNumberQuery(trip_id, body) {
     const {
-      seatNumber,
+      seat_number,
     } = body;
     console.log('bodyyy', body);
     return new Promise((resolve, reject) => {
-      this.findTripsById(tripId).then((res) => {
+      this.findTripsById(trip_id).then((res) => {
         const {
           capacity,
         } = res.rows[0];
         console.log('omoo', res.rows[0]);
-        console.log('seattttttt', typeof (seatNumber), typeof (capacity));
-        if (Number(seatNumber) > Number(capacity)) {
+        console.log('seattttttt', typeof (seat_number), typeof (capacity));
+        if (Number(seat_number) > Number(capacity)) {
           const obj2 = {};
           obj2.status = 400;
           obj2.Message = `this seat number is not available pls select from 1 to ${capacity}`;
           return reject(obj2);
         }
-        this.findSeatNumberByTripid(tripId, seatNumber).then((respond) => {
+        this.findSeatNumberByTripid(trip_id, seat_number).then((respond) => {
           console.log('alllll', respond.rows.length);
           if (respond.rows.length > 0) {
             const obj2 = {};
@@ -833,9 +832,7 @@ class queryProvider {
             obj2.Message = 'this seatNumber has been taken pls choose available seat number';
             reject(obj2);
           }
-
-          console.log('testmeee', seatNumber, tripId);
-          const queryBody = `UPDATE Bookings SET seatnumber = '${seatNumber}' WHERE tripid = '${tripId}' returning * `;
+          const queryBody = `UPDATE Bookings SET seatnumber = '${seat_number}' WHERE tripid = '${trip_id}' returning * `;
           db.query(queryBody)
             .then((result) => {
               if (result.rowCount === 0) {
@@ -873,36 +870,33 @@ class queryProvider {
    * @param  {string} userid - Request object
    * @return {string} res
    */
-  static saveBookingQuery(body, userid, useremail, userfname, userlname) {
+  static saveBookingQuery(body, user_id, useremail, userfname, userlname) {
     const {
-      tripId,
-      seatNumber,
+      trip_id,
+      seat_number,
     } = body;
 
-    console.log('tripppiddd', tripId, seatNumber);
-
-
+console.log('trtrtrt',trip_id,seat_number)
     const today = new Date();
     const date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
     const time = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
     const createdAt = `${date} ${time}`;
 
     return new Promise((resolve, reject) => {
-      this.findTripsById(tripId).then((res) => {
+      this.findTripsById(trip_id).then((res) => {
         const {
           tripdate,
           busid,
           capacity,
         } = res.rows[0];
-        console.log('seattttttt', typeof (seatNumber), typeof (capacity));
-        if (Number(seatNumber) > Number(capacity)) {
+        
+        if (Number(seat_number) > Number(capacity)) {
           const obj2 = {};
           obj2.status = 400;
           obj2.Message = `this seat number is not available pls select from 1 to ${capacity}`;
           return reject(obj2);
         }
-        this.findSeatNumberByTripid(tripId, seatNumber).then((respond) => {
-          console.log('alllll', respond.rows.length);
+        this.findSeatNumberByTripid(trip_id, seat_number).then((respond) => {
           if (respond.rows.length > 0) {
             const obj2 = {};
             obj2.status = 400;
@@ -912,7 +906,7 @@ class queryProvider {
 
           const queryBody = `
                 INSERT INTO Bookings(createduser, tripid, busid, tripdate, seatnumber,firstname, lastname, email,createdon)
-      VALUES ( ${userid},'${tripId}','${busid}', '${tripdate}','${seatNumber}','${userfname}','${userlname}','${useremail}','${createdAt}') returning * `;
+      VALUES ( ${user_id},'${trip_id}','${busid}', '${tripdate}','${seat_number}','${userfname}','${userlname}','${useremail}','${createdAt}') returning * `;
           db.query(queryBody)
             .then((result) => {
               if (result.rowCount >= 1) {

@@ -12,17 +12,17 @@ const status = Joi.string().trim()
   .required();
 const fare = Joi.number().integer().positive()
   .required();
-const busId = Joi.number().integer().positive()
+const bus_id = Joi.number().integer().positive()
   .required();
-const tripDate = Joi.date().required();
+const trip_date = Joi.date().required();
 
 const TripCreateSchema = {
   origin,
   destination,
   status,
   fare,
-  busId,
-  tripDate,
+  bus_id,
+  trip_date,
 };
 
 const tripUpdateStatusSchema = {

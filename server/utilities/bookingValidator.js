@@ -1,19 +1,19 @@
 import Joi from 'joi';
 
-const tripId = Joi.number().integer().positive()
+const trip_id = Joi.number().integer().positive()
   .required();
-const seatNumber = Joi.number().integer().positive()
+const seat_number = Joi.number().integer().positive()
   .required();
 
 
 const BookingCreateSchema = {
-  tripId,
-  seatNumber,
+  trip_id,
+  seat_number,
 };
 
 const BookingUpdateSchema = {
-  tripId,
-  seatNumber,
+  trip_id,
+  seat_number,
 };
 
 
