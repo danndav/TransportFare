@@ -23,11 +23,11 @@ class BookingService {
           .then((respond) => {
             const data = {
               bookingId: respond.rows[0].id,
-              userId: respond.rows[0].userid,
+              userId: respond.rows[0].createduser,
               TripId: respond.rows[0].tripid,
               busId: respond.rows[0].busid,
               tripDate: respond.rows[0].tripdate,
-              seatNumber: respond.rows[0].setnumber,
+              seatNumber: respond.rows[0].seatnumber,
               firstName: respond.rows[0].firstname,
               lastName: respond.rows[0].setnumber,
               email: respond.rows[0].email,
@@ -39,9 +39,15 @@ class BookingService {
 
             resolve(data);
           })
-          .catch(err => reject(err));
+          .catch((err) => {
+            console.log('hello there', err);
+            return reject(err);
+          });
       })
-        .catch(err => reject(err));
+        .catch((err) => {
+          console.log('hello there', err);
+          return reject(err);
+        });
     });
   }
 
@@ -72,7 +78,7 @@ class BookingService {
   static DeleteBooking(typeofUser, userId, bookingId) {
     return new Promise((resolve, reject) => {
       if (typeofUser === true) {
-        queryProvider.deleteTripByBusid(bookingId)
+        queryProvider.deleteBookingByid(bookingId)
           .then(response => resolve(response))
           .catch(err => reject(err));
       } else {
@@ -80,6 +86,32 @@ class BookingService {
           .then(response => resolve(response))
           .catch(err => reject(err));
       }
+    });
+  }
+
+
+  /**
+     * update Booking seatnumber status
+     * @staticmethod
+     * @param  {string} BookingId - Request object
+     * @param  {string} body - Request object
+     * @param  {string} host - Request object
+     * @param  {string} user_id - Request object
+     * @return {string} res
+     */
+  static bookingupdateseatNumber(id, body) {
+    return new Promise((resolve, reject) => {
+      queryProvider
+        .updateSeatNumberQuery(id, body)
+        .then((res) => {
+          console.log(res.rows);
+          const data = {
+            id: res.rows[0].id,
+            seatNumber: res.rows[0].seatnumber,
+          };
+          resolve(data);
+        })
+        .catch(err => reject(err));
     });
   }
 }

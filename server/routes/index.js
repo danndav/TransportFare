@@ -12,8 +12,12 @@ import Authorization from '../middlewares/authentication';
 
 const { createUser, loginUser } = UserController;
 const { createBus } = BusController;
-const { createBooking, viewAllBookings, DeleteUserBooking } = BookingContoller;
-const { createTrip, viewAllTrips, updateTripStatus } = TripController;
+const {
+  createBooking, viewAllBookings, DeleteUserBooking, updateBookingSeatNumber,
+} = BookingContoller;
+const {
+  createTrip, viewAllTrips, updateTripStatus, viewAllTripsbyOriginorDestination,
+} = TripController;
 const { userSignupValidate, userLoginValidate } = UserMiddleware;
 const { BusCreateValidate } = BusMiddleware;
 const { TripCreateValidate, TripUpdateStatus } = TripMiddleware;
@@ -27,13 +31,19 @@ const router = Router();
 // User Routes
 router.post('/auth/signup', userSignupValidate, createUser);
 router.post('/auth/signin/', userLoginValidate, loginUser);
+
+// Buses Routes
 router.post('/buses', verifyAdmin, BusCreateValidate, createBus);
+router.get('/trips/search', verifyAdmin && verifyUser, viewAllTripsbyOriginorDestination);
 router.post('/trips', verifyAdmin, TripCreateValidate, createTrip);
 router.get('/trips', verifyAdmin && verifyUser, viewAllTrips);
 router.patch('/trips/:id', verifyAdmin, TripUpdateStatus, updateTripStatus);
+
+// Booking Routes
 router.post('/bookings', verifyAdmin && verifyUser, BookingCreateValidate, createBooking);
 router.get('/bookings', verifyAdmin && verifyUser, viewAllBookings);
 router.delete('/bookings/:id', verifyAdmin && verifyUser, DeleteUserBooking);
+router.patch('/bookings/:tripId', verifyAdmin && verifyUser, updateBookingSeatNumber);
 
 
 export default router;

@@ -40,6 +40,7 @@ class TripController {
         message: 'Successfully fetched all Trips',
         data: response.rows,
       }))
+      /* istanbul ignore next-line */
       .catch(err => res.status(400).json(err));
   }
 
@@ -68,6 +69,55 @@ class TripController {
         status: 404,
         error: 'This Trip does not exist',
       }));
+  }
+
+  /**
+   * View all Trips  by origin
+   * @staticmethod
+   * @param  {object} req - Trip objectexport default TripController
+   * @param {object} res - Response object
+   * @return {json} res.json
+   */
+  static viewAllTripsbyOriginorDestination(req, res) {
+    const {
+      origin,
+      destination,
+    } = req.query;
+
+    if (origin && destination) {
+      TripService
+        .viewAllTripsbyOriginDestination(origin, destination)
+        .then(response => res.status(200).json({
+          status: 200,
+          message: 'Successfully fetched all Trips by Origin and Destination',
+          data: response.rows,
+        }))
+        .catch(err => res.status(400).json(err));
+    } else if (origin) {
+      TripService
+        .viewAllTripsOrigin(origin)
+        .then(response => res.status(200).json({
+          status: 200,
+          message: 'Successfully fetched all Trips by origin',
+          data: response.rows,
+        }))
+        .catch(err => res.status(400).json(err));
+    } else if (destination) {
+      TripService
+        .viewAllTripsDestination(destination)
+        .then(response => res.status(200).json({
+          status: 200,
+          message: 'Successfully fetched all Trips by Destination',
+          data: response.rows,
+        }))
+        .catch(err => res.status(400).json(err));
+    } else {
+      /* istanbul ignore next-line */
+      return res.status(400).json({
+        status: 400,
+        message: 'Could not fetch any trips',
+      });
+    }
   }
 }
 

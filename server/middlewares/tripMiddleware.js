@@ -44,12 +44,14 @@ class TripMiddleware {
   // eslint-disable-next-line consistent-return
   static TripUpdateStatus(req, res, next) {
     if (Object.keys(req.body).length === 0) {
+      /* istanbul ignore next-line */
       return res.status(400).json({
         status: 400,
         message: 'Please fill all fields',
       });
     }
     Joi.validate(req.body, tripUpdateStatusSchema)
+    /* istanbul ignore next-line */
       .then(() => next())
       .catch(err => res.status(400).json({
         status: 400,

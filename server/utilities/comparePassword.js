@@ -19,6 +19,7 @@ class ComparePassword {
         if (response) {
           resolve('Password Matched');
         } else {
+          /* istanbul ignore next-line */
           reject(new Error('Password not matched'));
         }
       });

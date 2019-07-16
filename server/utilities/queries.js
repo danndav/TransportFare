@@ -25,8 +25,8 @@ class queryProvider {
       db.query(query)
         .then((result) => {
           if (!(result.rowCount)) {
-            err.responseMessage = 'user does not exist';
-            err.responseCode = '01';
+            err.Message = 'user does not exist';
+            err.Status = 400;
             reject(err);
           } else if (result.rowCount) {
             obj.rowCount = result.rowCount;
@@ -35,8 +35,8 @@ class queryProvider {
           }
         })
         .catch((error) => {
-          err.responseMessage = 'Error Finding User';
-          err.responseCode = '02';
+          err.Message = 'Error Finding User';
+          err.Status = '02';
           reject(err);
         });
     });
@@ -57,8 +57,8 @@ class queryProvider {
         .then((result) => {
           console.log('theeee', result);
           if (result.rowCount >= 1) {
-            err.responseMessage = 'bus not available';
-            err.responseCode = '01';
+            err.Message = 'bus not available';
+            err.Status = 400;
             reject(err);
           } else {
             obj.rowCount = result.rowCount;
@@ -68,8 +68,8 @@ class queryProvider {
         })
         .catch((error) => {
           console.log('yea error', error);
-          err.responseMessage = 'Error Finding busid from trip';
-          err.responseCode = '02';
+          err.Message = 'Error Finding busid from trip';
+          err.Status = '02';
           reject(err);
         });
     });
@@ -91,8 +91,8 @@ class queryProvider {
           console.log('theeee', result);
           console.log('rowww', result.rowCount);
           if (result.rowCount >= 1) {
-            err.responseMessage = 'seatnumber not available';
-            err.responseCode = '01';
+            err.Message = 'seatnumber not available';
+            err.Status = 400;
             reject(err);
           } else {
             obj.rowCount = result.rowCount;
@@ -102,8 +102,108 @@ class queryProvider {
         })
         .catch((error) => {
           console.log('yea error', error);
-          err.responseMessage = 'Error Finding tripid from trip';
-          err.responseCode = '02';
+          err.Message = 'Error Finding tripid from trip';
+          err.Status = '02';
+          reject(err);
+        });
+    });
+  }
+
+  /**
+   * Find busid by user
+   * @staticmethod
+   * @param  {string} email - Request object
+   * @return {string} res
+   */
+  static viewAllTripsbyOriginDestinationQuery(origin, destination) {
+    console.log('originnnnn', destination, origin);
+    return new Promise((resolve, reject) => {
+      const query = `SELECT * FROM Trips WHERE origin = '${origin}' and destination = '${destination}' `;
+      db.query(query)
+        .then((result) => {
+          console.log('theeee', result);
+          console.log('rowww', result.rowCount);
+          if (!(result.rowCount)) {
+            err.Message = 'Trips destination and origin cant be fetched';
+            err.status = 400;
+            reject(err);
+          } else {
+            obj.rowCount = result.rowCount;
+            obj.rows = result.rows;
+            resolve(obj);
+          }
+        })
+        .catch((error) => {
+          console.log('yea error', error);
+          err.Message = 'Error Finding origin from trip';
+          err.Status = '02';
+          reject(err);
+        });
+    });
+  }
+
+
+  /**
+   * Find busid by user
+   * @staticmethod
+   * @param  {string} email - Request object
+   * @return {string} res
+   */
+  static findAllTripsbyOriginQuery(origin) {
+    console.log('printbuseee', origin);
+    return new Promise((resolve, reject) => {
+      const query = `SELECT * FROM Trips WHERE origin = '${origin}' `;
+      db.query(query)
+        .then((result) => {
+          console.log('theeee', result);
+          console.log('rowww', result.rowCount);
+          if (!(result.rowCount)) {
+            err.Message = 'Trips origin cant be  fetched';
+            err.status = 400;
+            reject(err);
+          } else {
+            obj.rowCount = result.rowCount;
+            obj.rows = result.rows;
+            resolve(obj);
+          }
+        })
+        .catch((error) => {
+          console.log('yea error', error);
+          err.Message = 'Error Finding origin from trip';
+          err.Status = '02';
+          reject(err);
+        });
+    });
+  }
+
+  /**
+   * Find busid by user
+   * @staticmethod
+   * @param  {string} email - Request object
+   * @return {string} res
+   */
+  static findAllTripsbyDestinationQuery(destination) {
+    console.log(destination);
+    return new Promise((resolve, reject) => {
+      const query = `SELECT * FROM Trips WHERE destination = '${destination}' `;
+      db.query(query)
+        .then((result) => {
+          console.log('theeee', result);
+          console.log('rowww', result.rowCount);
+          if (!(result.rowCount)) {
+            err.Message = 'Trips destination cant be fetched';
+            err.Status = 400;
+            reject(err);
+          } else {
+            obj.rowCount = result.rowCount;
+            obj.rows = result.rows;
+            resolve(obj);
+          }
+        })
+        .catch((error) => {
+          console.log('yea error', error);
+          err.Message = 'Error Finding destination from trip';
+          err.Status = '02';
           reject(err);
         });
     });
@@ -122,8 +222,8 @@ class queryProvider {
       db.query(query)
         .then((result) => {
           if (!(result.rowCount)) {
-            err.responseMessage = 'Trip number not found';
-            err.responseCode = '400';
+            err.Message = 'Trip number not found';
+            err.Status = 400;
             reject(err);
           } else if (result.rowCount >= 1) {
             obj.rowCount = result.rowCount;
@@ -132,8 +232,8 @@ class queryProvider {
           }
         })
         .catch(() => {
-          err.responseMessage = 'Error Finding trip';
-          err.responseCode = '02';
+          err.Message = 'Error Finding trip';
+          err.Status = '02';
           reject(err);
         });
     });
@@ -152,8 +252,8 @@ class queryProvider {
       db.query(query)
         .then((result) => {
           if (result.rowCount === 0) {
-            err.responseMessage = 'user Array Empty';
-            err.responseCode = '01';
+            err.Message = 'user Array Empty';
+            err.Status = 400;
             reject(err);
           } else if (result.rowCount >= 1) {
             obj.rowCount = result.rowCount;
@@ -162,8 +262,8 @@ class queryProvider {
           }
         })
         .catch(() => {
-          err.responseMessage = 'Error Finding user';
-          err.responseCode = '02';
+          err.Message = 'Error Finding user';
+          err.Status = '02';
           reject(err);
         });
     });
@@ -193,8 +293,8 @@ class queryProvider {
         })
         .catch((error) => {
           console.log(error);
-          err.responseMessage = 'Error Finding Bus';
-          err.responseCode = '02';
+          err.Message = 'Error Finding Bus';
+          err.Status = '02';
           reject(err);
         });
     });
@@ -212,8 +312,8 @@ class queryProvider {
       db.query(query)
         .then((result) => {
           if (!(result.rowCount)) {
-            err.responseMessage = 'bus does not exist';
-            err.responseCode = '01';
+            err.Message = 'bus does not exist';
+            err.Status = 400;
             reject(err);
           } else if (result.rowCount) {
             obj.rowCount = result.rowCount;
@@ -222,8 +322,8 @@ class queryProvider {
           }
         })
         .catch(() => {
-          err.responseMessage = 'Error Finding Bus';
-          err.responseCode = '02';
+          err.Message = 'Error Finding Bus';
+          err.Status = '02';
           reject(err);
         });
     });
@@ -348,8 +448,8 @@ class queryProvider {
       db.query(query)
         .then((result) => {
           if (!(result.rowCount)) {
-            err.responseMessage = 'Bookings Array Empty';
-            err.responseCode = '01';
+            err.Message = 'Bookings Array Empty';
+            err.Status = 400;
             reject(err);
           } else if (result.rowCount) {
             obj.rowCount = result.rowCount;
@@ -358,8 +458,8 @@ class queryProvider {
           }
         })
         .catch(() => {
-          err.responseMessage = 'Error Finding All Trips';
-          err.responseCode = '02';
+          err.Message = 'Error Finding All Trips';
+          err.Status = '02';
           reject(err);
         });
     });
@@ -378,8 +478,8 @@ class queryProvider {
       db.query(query)
         .then((result) => {
           if (!(result.rowCount)) {
-            err.responseMessage = 'Bookings Array Empty';
-            err.responseCode = '01';
+            err.Message = 'Bookings Array Empty';
+            err.Status = 400;
             reject(err);
           } else if (result.rowCount) {
             obj.rowCount = result.rowCount;
@@ -388,8 +488,8 @@ class queryProvider {
           }
         })
         .catch(() => {
-          err.responseMessage = 'Error Finding All Trips';
-          err.responseCode = '02';
+          err.Message = 'Error Finding All Trips';
+          err.Status = '02';
           reject(err);
         });
     });
@@ -409,7 +509,7 @@ class queryProvider {
         .then((result) => {
           if (result.rowCount === 0) {
             const message = {};
-            message.status = '400';
+            message.status = 400;
             message.error = 'booking id does not exist';
             reject(message);
           } else if (result.rowCount >= 1) {
@@ -437,7 +537,7 @@ class queryProvider {
         .then((result) => {
           if (result.rowCount === 0) {
             const message = {};
-            message.status = '400';
+            message.status = 400;
             message.error = 'booking id does not exist';
             reject(message);
           } else if (result.rowCount >= 1) {
@@ -625,8 +725,8 @@ class queryProvider {
               });
           }).catch(() => {
             const obj1 = {};
-            obj1.status = 400;
-            obj1.Message = 'This bus id already assign to a trip';
+            obj1.status = 404;
+            obj1.Error = 'This bus id is already assign to a trip';
             reject(obj1);
           });
         })
@@ -650,8 +750,8 @@ class queryProvider {
       db.query(query)
         .then((result) => {
           if (!(result.rowCount)) {
-            err.responseMessage = 'Trips Array Empty';
-            err.responseCode = '01';
+            err.Message = 'Trips Array Empty';
+            err.Status = 400;
             reject(err);
           } else if (result.rowCount) {
             obj.rowCount = result.rowCount;
@@ -660,8 +760,8 @@ class queryProvider {
           }
         })
         .catch(() => {
-          err.responseMessage = 'Error Finding All Trips';
-          err.responseCode = '02';
+          err.Message = 'Error Finding All Trips';
+          err.Status = '02';
           reject(err);
         });
     });
@@ -701,6 +801,72 @@ class queryProvider {
 
 
   /**
+   * Update Trips Status Query
+   * @staticmethod
+   * @param  {string} Tripsid - Request object
+   * @param  {string} body - Request object
+   * @return {string} res
+   */
+  static updateSeatNumberQuery(tripId, body) {
+    const {
+      seatNumber,
+    } = body;
+    console.log('bodyyy', body);
+    return new Promise((resolve, reject) => {
+      this.findTripsById(tripId).then((res) => {
+        const {
+          capacity,
+        } = res.rows[0];
+        console.log('omoo', res.rows[0]);
+        console.log('seattttttt', typeof (seatNumber), typeof (capacity));
+        if (Number(seatNumber) > Number(capacity)) {
+          const obj2 = {};
+          obj2.status = 400;
+          obj2.Message = `this seat number is not available pls select from 1 to ${capacity}`;
+          return reject(obj2);
+        }
+        this.findSeatNumberByTripid(tripId, seatNumber).then((respond) => {
+          console.log('alllll', respond.rows.length);
+          if (respond.rows.length > 0) {
+            const obj2 = {};
+            obj2.status = 400;
+            obj2.Message = 'this seatNumber has been taken pls choose available seat number';
+            reject(obj2);
+          }
+
+          console.log('testmeee', seatNumber, tripId);
+          const queryBody = `UPDATE Bookings SET seatnumber = '${seatNumber}' WHERE tripid = '${tripId}' returning * `;
+          db.query(queryBody)
+            .then((result) => {
+              if (result.rowCount === 0) {
+                console.log('identity.', result.rowCount);
+                const response = 'Trips does not exist';
+                reject(response);
+              } else if (result.rowCount >= 1) {
+                obj.rowCount = result.rowCount;
+                obj.rows = result.rows;
+                resolve(obj);
+              }
+            })
+            .catch((erro) => {
+              const error = 'Error Finding trip';
+              console.log(erro);
+              reject(error);
+            });
+        }).catch((error) => {
+          console.log(error);
+          return reject(err);
+        });
+      })
+        .catch((error) => {
+          console.log(error);
+          return reject(err);
+        });
+    });
+  }
+
+
+  /**
    * Save Booking Query
    * @staticmethod
    * @param  {string} body - Request object
@@ -732,7 +898,7 @@ class queryProvider {
         if (Number(seatNumber) > Number(capacity)) {
           const obj2 = {};
           obj2.status = 400;
-          obj2.responseMessage = `this seat number is not available pls select from 1 to ${capacity}`;
+          obj2.Message = `this seat number is not available pls select from 1 to ${capacity}`;
           return reject(obj2);
         }
         this.findSeatNumberByTripid(tripId, seatNumber).then((respond) => {
@@ -740,7 +906,7 @@ class queryProvider {
           if (respond.rows.length > 0) {
             const obj2 = {};
             obj2.status = 400;
-            obj2.responseMessage = 'this seatNumber has been taken pls choose available seat number';
+            obj2.Message = 'this seatNumber has been taken pls choose available seat number';
             reject(obj2);
           }
 
