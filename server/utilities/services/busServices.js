@@ -21,13 +21,13 @@ class BusServices {
         .then((res) => {
           const data = {
             id: res.rows[0].id,
-            userid: res.rows[0].userid,
-            numberPlate: res.rows[0].number_plate,
+            user_id: res.rows[0].userid,
+            number_plate: res.rows[0].number_plate,
             manufacturer: res.rows[0].manufacturer,
             model: res.rows[0].model,
             year: res.rows[0].year,
             capacity: res.rows[0].capacity,
-            createdAt: res.rows[0].createdon,
+            created_at: res.rows[0].createdon,
           };
           resolve(data);
         })

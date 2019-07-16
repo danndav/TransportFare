@@ -13,25 +13,23 @@ class BookingService {
      * @param  {string} userid - Request object
      * @return {string} res findUserById
      */
-  static saveBooking(body, userid) {
+  static saveBooking(body, user_id) {
     return new Promise((resolve, reject) => {
-      queryProvider.findUserById(userid).then((res) => {
+      queryProvider.findUserById(user_id).then((res) => {
         const { firstname, lastname, email } = res.rows[0];
-        console.log('bodyyyy', body, userid);
-        console.log(res.rows[0]);
-        queryProvider.saveBookingQuery(body, userid, firstname, lastname, email)
+        queryProvider.saveBookingQuery(body, user_id, firstname, lastname, email)
           .then((respond) => {
             const data = {
-              bookingId: respond.rows[0].id,
-              userId: respond.rows[0].createduser,
-              TripId: respond.rows[0].tripid,
-              busId: respond.rows[0].busid,
-              tripDate: respond.rows[0].tripdate,
-              seatNumber: respond.rows[0].seatnumber,
-              firstName: respond.rows[0].firstname,
-              lastName: respond.rows[0].setnumber,
+              booking_id: respond.rows[0].id,
+              user_id: respond.rows[0].createduser,
+              trip_id: respond.rows[0].tripid,
+              bus_id: respond.rows[0].busid,
+              trip_date: respond.rows[0].tripdate,
+              seat_number: respond.rows[0].seatnumber,
+              first_name: respond.rows[0].firstname,
+              last_name: respond.rows[0].setnumber,
               email: respond.rows[0].email,
-              createdOn: respond.rows[0].createdon,
+              created_on: respond.rows[0].createdon,
             };
 
             console.log(data);
@@ -107,7 +105,7 @@ class BookingService {
           console.log(res.rows);
           const data = {
             id: res.rows[0].id,
-            seatNumber: res.rows[0].seatnumber,
+            seat_number: res.rows[0].seatnumber,
           };
           resolve(data);
         })

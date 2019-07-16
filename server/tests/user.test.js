@@ -27,11 +27,11 @@ describe('/POST REQUEST', () => {
       .post('/api/v1/auth/signup')
       .send({
         email: 'tester@gmail.com',
-        firstName: 'hello',
-        lastName: 'Abass',
-        phoneNumber: '08023461217',
+        first_name: 'hello',
+        last_name: 'Abass',
+        phone_number: '08023461217',
         password: 'tolaniabass',
-        isAdmin: false,
+        is_admin: false,
       })
       .end((err, res) => {
         res.body.should.have
@@ -65,11 +65,11 @@ describe('/POST REQUEST', () => {
       .post('/api/v1/auth/signup')
       .send({
         email: 'tester@gmail.com',
-        firstName: 'hel//lo',
-        lastName: 'Abass',
-        phoneNumber: '08023461217',
+        first_name: 'hel//lo',
+        last_name: 'Abass',
+        phone_number: '08023461217',
         password: 'tolaniabass',
-        isAdmin: false,
+        is__ndmin: false,
       })
       .end((err, res) => {
         res.should.have.status(400);
@@ -86,11 +86,11 @@ describe('/POST REQUEST', () => {
       .post('/api/v1/auth/signup')
       .send({
         email: 'tester@gmail.com',
-        firstName: 'hello',
-        lastName: 'Abas\\s',
-        phoneNumber: '08023461217',
+        first_name: 'hello',
+        last_name: 'Abas\\s',
+        phone_number: '08023461217',
         password: 'tolaniabass',
-        isAdmin: false,
+        is_admin: false,
       })
       .end((err, res) => {
         res.should.have.status(400);
@@ -106,11 +106,11 @@ describe('/POST REQUEST', () => {
       .post('/api/v1/auth/signup')
       .send({
         email: 'dannain@gmail.com',
-        firstName: 'danieli',
-        lastName: 'david',
-        phoneNumber: '08119047808',
+        first_name: 'danieli',
+        last_name: 'david',
+        phone_number: '08119047808',
         password: 'danieldavid',
-        isAdmin: true,
+        is_admin: true,
       })
       .end((err, res) => {
         res.should.have.status(400);

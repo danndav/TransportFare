@@ -13,9 +13,9 @@ class BookingController {
      * @return {json} res.json
      */
   static createBooking(req, res) {
-    const userId = req.userData.id;
+    const user_id = req.userData.id;
     BookingService
-      .saveBooking(req.body, userId)
+      .saveBooking(req.body, user_id)
       .then(data => res.status(201).json({
         status: 201,
         data,
@@ -34,7 +34,7 @@ class BookingController {
    */
   static viewAllBookings(req, res) {
     const userId = req.userData.id;
-    const typeofUser = req.userData.isAdmin;
+    const typeofUser = req.userData.is_admin;
     BookingService
       .viewAllCreatedBookings(typeofUser, userId)
       .then(response => res.status(200).json({
@@ -54,7 +54,7 @@ class BookingController {
    */
   static DeleteUserBooking(req, res) {
     const userId = req.userData.id;
-    const typeofUser = req.userData.isAdmin;
+    const typeofUser = req.userData.is_admin;
     const bookingId = req.params.id;
     BookingService
       .DeleteBooking(typeofUser, userId, bookingId)
@@ -75,12 +75,12 @@ class BookingController {
      */
   static updateBookingSeatNumber(req, res) {
     const {
-      tripId,
+      trip_id,
     } = req.params;
-    const seatnumber = req.body;
-
+    const {seat_number} = req.body;
+console.log('h111',trip_id)
     BookingService
-      .bookingupdateseatNumber(tripId, seatnumber)
+      .bookingupdateseatNumber(trip_id, seat_number)
       .then(response => res.status(200).json({
         status: 200,
         message: 'Booking SeatNumber Updated Successfully',

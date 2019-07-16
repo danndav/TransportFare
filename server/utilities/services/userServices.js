@@ -39,7 +39,7 @@ class UserService {
           const token = jwt.sign({
             id: res[0].id,
             email: res[0].email,
-            isAdmin: res[0].isadmin,
+            is_admin: res[0].isadmin,
           }, config.jwtSecretKey, {
             expiresIn: 86400,
           });
@@ -47,10 +47,10 @@ class UserService {
           const data = {
             token,
             id: res[0].id,
-            firstName: res[0].firstname.trim(),
-            lastName: res[0].lastname.trim(),
+            first_name: res[0].firstname.trim(),
+            last_name: res[0].lastname.trim(),
             email: res[0].email.trim(),
-            isAdmin: res[0].isadmin,
+            is_admin: res[0].isadmin,
           };
 
           resolve(data);
@@ -76,7 +76,7 @@ class UserService {
               const token = jwt.sign({
                 id: res.rows[0].id,
                 email: res.rows[0].email,
-                isAdmin: res.rows[0].isadmin,
+                is_admin: res.rows[0].isadmin,
               }, config.jwtSecretKey, {
                 expiresIn: 86400,
               });
@@ -84,10 +84,10 @@ class UserService {
               const data = {
                 token,
                 id: res.rows[0].id,
-                firstName: res.rows[0].firstname,
-                lastName: res.rows[0].lastname,
+                first_name: res.rows[0].firstname,
+                last_name: res.rows[0].lastname,
                 email: res.rows[0].email,
-                isAdmin: res.rows[0].isadmin,
+                is_admin: res.rows[0].isadmin,
               };
               resolve(data);
             })

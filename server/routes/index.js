@@ -43,7 +43,7 @@ router.patch('/trips/:id', verifyAdmin, TripUpdateStatus, updateTripStatus);
 router.post('/bookings', verifyAdmin && verifyUser, BookingCreateValidate, createBooking);
 router.get('/bookings', verifyAdmin && verifyUser, viewAllBookings);
 router.delete('/bookings/:id', verifyAdmin && verifyUser, DeleteUserBooking);
-router.patch('/bookings/:tripId', verifyAdmin && verifyUser, updateBookingSeatNumber);
+router.patch('/bookings/:trip_id', verifyAdmin && verifyUser, updateBookingSeatNumber);
 
 
 export default router;

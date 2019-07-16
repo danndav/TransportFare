@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-const numberPlate = Joi.string().alphanum().trim()
+const number_plate = Joi.string().alphanum().trim()
   .min(7)
   .required();
 const manufacturer = Joi.string().trim()
@@ -15,7 +15,7 @@ const capacity = Joi.number().integer().min(5)
   .required();
 
 const BusCreateSchema = {
-  numberPlate,
+  number_plate,
   manufacturer,
   model,
   year,
