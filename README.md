@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/danndav/TransportFare/badge.svg?branch=ft-167060869-sign-up-user)](https://coveralls.io/github/danndav/TransportFare?branch=ft-167060869-sign-up-user) [![Build Status](https://travis-ci.com/danndav/TransportFare.svg?branch=develop)](https://travis-ci.com/danndav/TransportFare) [![Maintainability](https://api.codeclimate.com/v1/badges/f7ae64c94c1e3dce9f27/maintainability)](https://codeclimate.com/github/danndav/TransportFare/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/f7ae64c94c1e3dce9f27/test_coverage)](https://codeclimate.com/github/danndav/TransportFare/test_coverage)
+
 # TransportFare
 
 WayFarer is a public bus transportation booking server. You are required to develop the back-end API.
