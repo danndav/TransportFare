@@ -22,7 +22,6 @@ const userSignupSchema = {
   last_name,
   email,
   password,
-  phone_number,
   is_admin,
 };
 
