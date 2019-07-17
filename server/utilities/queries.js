@@ -580,7 +580,10 @@ class queryProvider {
     const date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
     const time = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
     const created_at = `${date} ${time}`;
-
+     
+    if(!is_admin){
+     is_admin=false;
+    }
 
     return new Promise((resolve, reject) => {
       this.findUserByEmailQuery(email)
