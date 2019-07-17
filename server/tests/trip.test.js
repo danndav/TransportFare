@@ -62,7 +62,6 @@ describe('UNIT TESTS TO CREATE Trip', () => {
           destination: 'testto',
           trip_date: '3-10-2019',
           fare: '100',
-          status: 'active',
           bus_id: 18,
         })
         .end((err, res) => {

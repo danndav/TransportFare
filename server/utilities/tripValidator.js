@@ -19,7 +19,6 @@ const trip_date = Joi.date().required();
 const TripCreateSchema = {
   origin,
   destination,
-  status,
   fare,
   bus_id,
   trip_date,
