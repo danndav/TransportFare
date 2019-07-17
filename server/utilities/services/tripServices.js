@@ -21,7 +21,7 @@ class TripServices {
         .saveTripQuery(body, userid)
         .then((res) => {
           const data = {
-            id: res.rows[0].id,
+            trip_id: res.rows[0].id,
             created_user: res.rows[0].createduser,
             bus_id: res.rows[0].busid,
             origin: res.rows[0].origin,

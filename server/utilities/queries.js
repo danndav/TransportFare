@@ -579,7 +579,7 @@ class queryProvider {
     const date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
     const time = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
     const created_at = `${date} ${time}`;
-    const is_admin='';
+    const is_admin=true;
     const isAdmin = is_admin ? is_admin : false
    
 
@@ -671,9 +671,10 @@ class queryProvider {
       destination,
       trip_date,
       fare,
-      status,
     } = body;
 
+    const status ='';
+    const statuss = status ? status : 'active'
 
     const today = new Date();
     const date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
@@ -690,7 +691,7 @@ class queryProvider {
           this.findBusStatus(bus_id).then(() => {
             const queryBody = `
                 INSERT INTO Trips(createduser, busid, origin, destination, tripdate, fare, status,capacity, createdon)
-      VALUES ( ${user_id},'${bus_id}','${origin}', '${destination}','${trip_dateformat}','${fare}','${status}','${capacity}','${created_at}') returning * `;
+      VALUES ( ${user_id},'${bus_id}','${origin}', '${destination}','${trip_dateformat}','${fare}','${statuss}','${capacity}','${created_at}') returning * `;
             db.query(queryBody)
               .then((result) => {
                 if (result.rowCount >= 1) {

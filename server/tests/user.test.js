@@ -29,9 +29,8 @@ describe('/POST REQUEST', () => {
         email: 'tester@gmail.com',
         first_name: 'hello',
         last_name: 'Abass',
-        phone_number: '08023461217',
         password: 'tolaniabass',
-        is_admin: false,
+       
       })
       .end((err, res) => {
         // res.body.should.have
