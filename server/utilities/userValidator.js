@@ -12,9 +12,7 @@ const email = Joi.string().email().trim().min(8)
 const password = Joi.string().trim()
   .min(1)
   .required();
-const phone_number = Joi.number().integer().min(11)
-  .required();
-const is_admin = Joi.boolean().required();
+
 
 
 const userSignupSchema = {
@@ -22,8 +20,7 @@ const userSignupSchema = {
   last_name,
   email,
   password,
-  phone_number,
-  is_admin,
+
 };
 
 const userSigninSchema = {

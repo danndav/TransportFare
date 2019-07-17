@@ -573,36 +573,37 @@ class queryProvider {
       last_name,
       password,
       phone_number,
-      is_admin,
     } = body;
 
     const today = new Date();
     const date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
     const time = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
     const created_at = `${date} ${time}`;
-
+    const is_admin='';
+    const isAdmin = is_admin ? is_admin : false
+   
 
     return new Promise((resolve, reject) => {
       this.findUserByEmailQuery(email)
         .then((error) => {
-          reject(error);
+          reject(new Error("This email already exists please sign with a different email.") );
         })
         .catch(() => {
           bcrypt.hash(password, saltRounds).then((hash) => {
             const queryBody = `
                               INSERT INTO users(email,firstname, lastname, password, phonenumber, createdon, isadmin)
-                              VALUES ( '${email}','${first_name}', '${last_name}', '${hash}', '${phone_number}','${created_at}', '${is_admin}') returning * `;
+                              VALUES ( '${email}','${first_name}', '${last_name}', '${hash}', '${phone_number}','${created_at}', '${isAdmin}') returning * `;
             db.query(queryBody)
               .then((result) => {
                 if (result.rowCount) {
                   resolve(result.rows);
                 } else if (!(result.rowCount)) {
-                  const response = 'Could Not Save User';
-                  reject(response);
+                  reject(new Error("Could not save user") );
                 }
               })
               .catch((e) => {
-                reject(e);
+                console.log(e)
+                reject(new Error("could not save user") );
               });
           });
         });

@@ -20,17 +20,11 @@ class UserController {
         data,
         message: 'New user created successfully',
       }))
-      .catch((err) => {
-        if (err.rowCount >= 1) {
-          return res.status(409).json({
-            status: 'error',
-            error: 'User with this email exists already',
-          });
-        }
-        /* istanbul ignore next-line */
+      .catch((error) => {
+        console.log(error)
         return res.status(400).json({
           status:"error",
-          error: 'Could not create user',
+          error: error.message
         });
       });
   }
