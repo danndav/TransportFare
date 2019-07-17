@@ -17,11 +17,14 @@ class BookingController {
     BookingService
       .saveBooking(req.body, user_id)
       .then(data => res.status(201).json({
-        status: 201,
+        status: 'success',
         data,
         message: 'New Booking created successfully',
       }))
-      .catch(err => res.status(400).json(err));
+      .catch(err => res.status(400).json({
+        status:"error",
+        error: err.message
+      }));
   }
 
 
@@ -38,11 +41,14 @@ class BookingController {
     BookingService
       .viewAllCreatedBookings(typeofUser, userId)
       .then(response => res.status(200).json({
-        status: 200,
+        status: 'success',
         message: 'Successfully fetched all Bookings',
         data: response.rows,
       }))
-      .catch(err => res.status(400).json(err));
+      .catch(err => res.status(400).json(err)({
+        status:"error",
+        error: "error fetching all Bookings"
+      }));
   }
 
   /**
@@ -59,11 +65,14 @@ class BookingController {
     BookingService
       .DeleteBooking(typeofUser, userId, bookingId)
       .then(response => res.status(200).json({
-        status: 200,
+        status: 'success',
         message: 'Successfully Deleted Booking',
         data: response.rows,
       }))
-      .catch(err => res.status(400).json(err));
+      .catch(err => res.status(400).json(err)({
+        status:"error",
+        error: "Booking Not Deleted Succesfully",
+      }));
   }
 
   /**
@@ -82,15 +91,15 @@ console.log('h111',trip_id)
     BookingService
       .bookingupdateseatNumber(trip_id, seat_number)
       .then(response => res.status(200).json({
-        status: 200,
+        status: "success",
         message: 'Booking SeatNumber Updated Successfully',
         data: response,
       }))
     // eslint-disable-next-line no-unused-vars
-      .catch(err => res.status(404).json({
-        status: 404,
-        error: 'This Booking does not exist',
-      }));
+    .catch(err => res.status(400).json({
+      status:"error",
+      error: err.message
+    }));
   }
 }
 

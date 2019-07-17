@@ -21,7 +21,7 @@ class Authorization {
       return next();
     } catch (error) {
       return res.status(401).json({
-        status: res.statusCode,
+        status: 'error',
         error: 'user not found, please register to perform this action',
       });
     }
@@ -41,7 +41,7 @@ class Authorization {
       req.userData = decoded;
       if (req.userData.isAdmin === false) {
         return res.status(403).send({
-          status: res.statusCode,
+          status: 'error',
           error: 'You are not authorized to perform this action',
         });
       }
@@ -49,7 +49,7 @@ class Authorization {
       return next();
     } catch (error) {
       return res.status(401).send({
-        status: res.statusCode,
+        status: 'error',
         error: 'Authentication Failed',
       });
     }

@@ -16,20 +16,21 @@ class UserController {
     UserService
       .saveUser(req.body)
       .then(data => res.status(201).json({
-        status: 201,
+        status: "success",
         data,
         message: 'New user created successfully',
       }))
       .catch((err) => {
         if (err.rowCount >= 1) {
-          return res.status(400).json({
-            status: 400,
-            message: 'User with this email exists already',
+          return res.status(409).json({
+            status: 'error',
+            error: 'User with this email exists already',
           });
         }
         /* istanbul ignore next-line */
         return res.status(400).json({
-          message: 'Could not create user',
+          status:"error",
+          error: 'Could not create user',
         });
       });
   }
@@ -48,14 +49,14 @@ class UserController {
     } = req.body;
     UserService
       .validateUserLogin(email, password)
-      .then(data => res.status(200).json({
-        status: 200,
+      .then(data =>res.status(200).json({
+        status: 'success',
         data,
         message: 'Authentication Successful',
       }))
       .catch(err => res.status(401).json({
-        status: 401,
-        responseMessage: err,
+        status: 'error',
+        error: err,
       }));
   }
 }

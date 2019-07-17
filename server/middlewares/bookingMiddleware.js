@@ -21,15 +21,15 @@ class BookingMiddleware {
   static BookingCreateValidate(req, res, next) {
     if (Object.keys(req.body).length === 0) {
       return res.status(400).json({
-        status: 400,
-        message: 'Please fill all fields',
+        status: "error",
+        error: 'Please fill all fields',
       });
     }
     Joi.validate(req.body, BookingCreateSchema)
       .then(() => next())
       .catch(err => res.status(400).json({
-        status: 400,
-        message: err.details[0].message,
+        status: "error",
+        error: err.details[0].message,
       }));
   }
 }
