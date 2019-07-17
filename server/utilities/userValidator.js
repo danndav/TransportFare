@@ -1,11 +1,9 @@
 import Joi from 'joi';
 
 const first_name = Joi.string().trim(true).min(3).regex(/^[A-Za-z]*$/)
-  .error(() => 'enter a valid firstname and name must not be less than 3 character')
   .min(1)
   .required();
 const last_name = Joi.string().trim().min(3).regex(/^[A-Za-z]*$/)
-  .error(() => 'enter a valid lastname and name must not be less than 3 character')
   .min(1)
   .required();
 const email = Joi.string().email().trim().min(8)

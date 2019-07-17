@@ -21,18 +21,17 @@ class TripMiddleware {
   static TripCreateValidate(req, res, next) {
     if (Object.keys(req.body).length === 0) {
       return res.status(400).json({
-        status: 400,
-        message: 'Please fill all fields',
+        status: "error",
+        error: 'Please fill all fields',
       });
     }
     Joi.validate(req.body, TripCreateSchema)
       .then(() => next())
       .catch(err => res.status(400).json({
-        status: 400,
-        message: err.details[0].message,
+        status: "error",
+        error: err.details[0].message,
       }));
   }
-
   /**
    * TripMiddleware
    * @staticmethod  TripUpdateStatus
@@ -44,18 +43,16 @@ class TripMiddleware {
   // eslint-disable-next-line consistent-return
   static TripUpdateStatus(req, res, next) {
     if (Object.keys(req.body).length === 0) {
-      /* istanbul ignore next-line */
       return res.status(400).json({
-        status: 400,
-        message: 'Please fill all fields',
+        status: "error",
+        error: 'Please fill all fields',
       });
     }
     Joi.validate(req.body, tripUpdateStatusSchema)
-    /* istanbul ignore next-line */
       .then(() => next())
       .catch(err => res.status(400).json({
-        status: 400,
-        message: err.details[0].message,
+        status: "error",
+        error: err.details[0].message,
       }));
   }
 }

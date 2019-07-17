@@ -32,7 +32,7 @@ before(() => {
       })
       .end((err, res) => {
         adminToken = res.body.data.token;
-        res.body.should.have.property('status').to.equals(200);
+        res.body.should.have.property('status').to.equals('success');
         res.body.should.have.property('data').to.be.an('object');
         done();
       });
@@ -48,7 +48,7 @@ before(() => {
       })
       .end((err, res) => {
         userToken = res.body.data.token;
-        res.body.should.have.property('status').to.equals(200);
+        res.body.should.have.property('status').to.equals('success');
         res.body.should.have.property('data').to.be.an('object');
         done();
       });
@@ -69,7 +69,7 @@ describe('UNIT TESTS TO CREATE booking', () => {
         .end((err, res) => {
           BookId = res.body.data.id;
           res.should.have.status(201);
-          res.body.should.have.property('status').to.equals(201);
+          res.body.should.have.property('status').to.equals('success');
           res.body.should.have.property('data').to.be.an('object');
           res.body.should.have
             .property('message')
@@ -87,9 +87,9 @@ describe('UNIT TESTS TO CREATE booking', () => {
         .send({})
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.should.have.property('status').to.equals(400);
+          res.body.should.have.property('status').to.equals('error');
           res.body.should.have
-            .property('message')
+            .property('error')
             .to.equals('Please fill all fields');
 
           done();
@@ -108,7 +108,7 @@ describe('UNIT TESTS TO CREATE booking', () => {
         })
         .end((err, res) => {
           res.should.have.status(401);
-          res.body.should.have.property('status').to.equals(401);
+          res.body.should.have.property('status').to.equals('error');
           res.body.should.have
             .property('error')
             .to.equals('user not found, please register to perform this action');
@@ -129,7 +129,7 @@ describe('UNIT TESTS TO CREATE booking', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.should.have.property('status').to.equals(400);
+          res.body.should.have.property('status').to.equals('error');
 
           done();
         });
@@ -147,7 +147,7 @@ describe('UNIT TESTS TO CREATE booking', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.should.have.property('Status').to.equals(400);
+          res.body.should.have.property('status').to.equals('error');
           console.log(res);
 
           done();
@@ -184,7 +184,7 @@ describe('UNIT TESTS FOR bookings', () => {
         .set('authorization', `Bearer ${111}`)
         .end((err, res) => {
           res.should.have.status(401);
-          res.body.should.have.property('status').to.equals(401);
+          res.body.should.have.property('status').to.equals('error');
           res.body.should.have
             .property('error')
             .to.equals('user not found, please register to perform this action');
@@ -207,7 +207,7 @@ describe('UNIT TESTS FOR bookings', () => {
         })
         .end((err, res) => {
           res.should.have.status(200);
-          res.body.should.have.property('status').to.equals(200);
+          res.body.should.have.property('status').to.equals('success');
           res.body.should.have.property('data').to.be.an('object');
           res.body.should.have
             .property('message')
@@ -228,11 +228,9 @@ describe('UNIT TESTS FOR bookings', () => {
           seat_number: 9,
         })
         .end((err, res) => {
-          res.should.have.status(404);
-          res.body.should.have.property('status').to.equals(404);
-          res.body.should.have
-            .property('error')
-            .to.equals('This Booking does not exist');
+          res.should.have.status(400);
+          res.body.should.have.property('status').to.equals('error');
+          
 
 
           done();
@@ -251,7 +249,7 @@ describe('UNIT TESTS FOR bookings', () => {
         })
         .end((err, res) => {
           res.should.have.status(401);
-          res.body.should.have.property('status').to.equals(401);
+          res.body.should.have.property('status').to.equals('error');
           res.body.should.have
             .property('error')
             .to.equals('user not found, please register to perform this action');

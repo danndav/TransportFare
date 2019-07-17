@@ -37,7 +37,7 @@ describe('/POST REQUEST', () => {
         res.body.should.have
           .property('message')
           .to.equals('New user created successfully');
-        res.body.should.have.property('status').to.equals(201);
+        res.body.should.have.property('status').to.equals('success');
         res.body.should.have.property('data').to.be.a('object');
         done();
       });
@@ -51,9 +51,9 @@ describe('/POST REQUEST', () => {
       .end((err, res) => {
         res.should.have.status(400);
         res.body.should.have
-          .property('message')
+          .property('error')
           .to.equals('Please fill all fields');
-        res.body.should.have.property('status').to.equals(400);
+        res.body.should.have.property('status').to.equals('error');
 
         done();
       });
@@ -69,11 +69,11 @@ describe('/POST REQUEST', () => {
         last_name: 'Abass',
         phone_number: '08023461217',
         password: 'tolaniabass',
-        is__ndmin: false,
+        is__admin: false,
       })
       .end((err, res) => {
         res.should.have.status(400);
-        res.body.should.have.property('status').to.equals(400);
+        res.body.should.have.property('status').to.equals('error');
 
         done();
       });
@@ -94,7 +94,7 @@ describe('/POST REQUEST', () => {
       })
       .end((err, res) => {
         res.should.have.status(400);
-        res.body.should.have.property('status').to.equals(400);
+        res.body.should.have.property('status').to.equals('error');
 
         done();
       });
@@ -113,10 +113,10 @@ describe('/POST REQUEST', () => {
         is_admin: true,
       })
       .end((err, res) => {
-        res.should.have.status(400);
-        res.body.should.have.property('status').to.equals(400);
+        res.should.have.status(409);
+        res.body.should.have.property('status').to.equals('error');
         res.body.should.have
-          .property('message')
+          .property('error')
           .to.equals('User with this email exists already');
 
         done();
@@ -130,9 +130,9 @@ describe('/POST REQUEST', () => {
       .send({})
       .end((err, res) => {
         res.should.have.status(400);
-        res.body.should.have.property('status').to.equals(400);
+        res.body.should.have.property('status').to.equals('error');
         res.body.should.have
-          .property('message')
+          .property('error')
           .to.equals('Please fill all fields');
 
         done();
@@ -150,7 +150,7 @@ describe('/POST REQUEST', () => {
         })
         .end((err, res) => {
           res.should.have.status(200);
-          res.body.should.have.property('status').to.equals(200);
+          res.body.should.have.property('status').to.equals('success');
           res.body.should.have.property('data').to.be.an('object');
           res.body.should.have
             .property('message')
@@ -168,9 +168,9 @@ describe('/POST REQUEST', () => {
         .send({})
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.should.have.property('status').to.equals(400);
+          res.body.should.have.property('status').to.equals('error');
           res.body.should.have
-            .property('message')
+            .property('error')
             .to.equals('Please fill all fields');
 
           done();
@@ -188,7 +188,7 @@ describe('/POST REQUEST', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.should.have.property('status').to.equals(400);
+          res.body.should.have.property('status').to.equals('error');
 
 
           done();
@@ -207,7 +207,7 @@ describe('/POST REQUEST', () => {
         .end((err, res) => {
           res.should.have.status(401);
           res.body.should.have
-            .property('responseMessage')
+            .property('error')
             .to.equals('Wrong Email and Password Combination. Please Check your credentials');
           done();
         });

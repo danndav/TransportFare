@@ -32,20 +32,11 @@ class BookingService {
               created_on: respond.rows[0].createdon,
             };
 
-            console.log(data);
-            console.log('hello there', res);
-
             resolve(data);
           })
-          .catch((err) => {
-            console.log('hello there', err);
-            return reject(err);
-          });
+          .catch((err) => { reject(err)});
       })
-        .catch((err) => {
-          console.log('hello there', err);
-          return reject(err);
-        });
+        .catch((err) => {reject(err)});
     });
   }
 
@@ -97,10 +88,10 @@ class BookingService {
      * @param  {string} user_id - Request object
      * @return {string} res
      */
-  static bookingupdateseatNumber(id, body) {
+  static bookingupdateseatNumber(id, seat_number) {
     return new Promise((resolve, reject) => {
       queryProvider
-        .updateSeatNumberQuery(id, body)
+        .updateSeatNumberQuery(id, seat_number)
         .then((res) => {
           console.log(res.rows);
           const data = {

@@ -27,7 +27,7 @@ before(() => {
       })
       .end((err, res) => {
         adminToken = res.body.data.token;
-        res.body.should.have.property('status').to.equals(200);
+        res.body.should.have.property('status').to.equals('success');
         res.body.should.have.property('data').to.be.an('object');
         done();
       });
@@ -43,7 +43,7 @@ before(() => {
       })
       .end((err, res) => {
         userToken = res.body.data.token;
-        res.body.should.have.property('status').to.equals(200);
+        res.body.should.have.property('status').to.equals('success');
         res.body.should.have.property('data').to.be.an('object');
         done();
       });
@@ -67,7 +67,7 @@ describe('UNIT TESTS TO CREATE Trip', () => {
         })
         .end((err, res) => {
           res.should.have.status(201);
-          res.body.should.have.property('status').to.equals(201);
+          res.body.should.have.property('status').to.equals('success');
           res.body.should.have.property('data').to.be.an('object');
           res.body.should.have
             .property('message')
@@ -85,9 +85,9 @@ describe('UNIT TESTS TO CREATE Trip', () => {
         .send({})
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.should.have.property('status').to.equals(400);
+          res.body.should.have.property('status').to.equals('error');
           res.body.should.have
-            .property('message')
+            .property('error')
             .to.equals('Please fill all fields');
 
           done();
@@ -110,7 +110,7 @@ describe('UNIT TESTS TO CREATE Trip', () => {
         })
         .end((err, res) => {
           res.should.have.status(401);
-          res.body.should.have.property('status').to.equals(401);
+          res.body.should.have.property('status').to.equals('error');
           res.body.should.have
             .property('error')
             .to.equals('Authentication Failed');
@@ -135,8 +135,8 @@ describe('UNIT TESTS TO CREATE Trip', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.should.have.property('status').to.equals(400);
-
+          res.body.should.have.property('status').to.equals('error');
+  
           done();
         });
     });
@@ -156,7 +156,7 @@ describe('UNIT TESTS TO CREATE Trip', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.should.have.property('status').to.equals(400);
+          res.body.should.have.property('status').to.equals('error');
 
           done();
         });
@@ -177,7 +177,7 @@ describe('UNIT TESTS TO CREATE Trip', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.should.have.property('status').to.equals(400);
+          res.body.should.have.property('status').to.equals('error');
 
           done();
         });
@@ -212,7 +212,7 @@ describe('UNIT TESTS FOR Trips', () => {
         .set('authorization', `Bearer ${111}`)
         .end((err, res) => {
           res.should.have.status(401);
-          res.body.should.have.property('status').to.equals(401);
+          res.body.should.have.property('status').to.equals('error');
           res.body.should.have
             .property('error')
             .to.equals('user not found, please register to perform this action');
@@ -279,11 +279,12 @@ describe('UNIT TESTS FOR Trips', () => {
           .get(`/api/v1/trips/search/?origin=${origin}`)
           .set('authorization', `Bearer ${adminToken}`)
           .end((err, res) => {
+            res.should.have.status(400);
             res.body.should.have
-              .property('Message')
-              .to.equals('Trips origin cant be  fetched');
-            res.should.have.property('status').to.equals(400);
-
+              .property('error')
+              .to.equals('Trip origin can not be fetched.');
+            res.body.should.have.property('status').to.equals('error');
+            
             done();
           });
       });
@@ -294,10 +295,12 @@ describe('UNIT TESTS FOR Trips', () => {
           .get(`/api/v1/trips/search/?destination=${destination}`)
           .set('authorization', `Bearer ${adminToken}`)
           .end((err, res) => {
+            res.should.have.status(400);
             res.body.should.have
-              .property('Message')
-              .to.equals('Trips destination cant be fetched');
-            res.should.have.property('status').to.equals(400);
+              .property('error')
+              .to.equals('Error finding destination from trip.');
+            res.body.should.have.property('status').to.equals('error');
+            
             done();
           });
       });
@@ -309,10 +312,11 @@ describe('UNIT TESTS FOR Trips', () => {
           .get(`/api/v1/trips/search/?origin=${origin}&destination=${destination}`)
           .set('authorization', `Bearer ${adminToken}`)
           .end((err, res) => {
+            res.should.have.status(400);
             res.body.should.have
-              .property('Message')
-              .to.equals('Trips destination and origin cant be fetched');
-            res.should.have.property('status').to.equals(400);
+              .property('error')
+              .to.equals('Error finding destination and origin from trip.');
+            res.body.should.have.property('status').to.equals('error');
             done();
           });
       });
@@ -331,7 +335,7 @@ describe('UNIT TESTS FOR Trips', () => {
         })
         .end((err, res) => {
           res.should.have.status(200);
-          res.body.should.have.property('status').to.equals(200);
+          res.body.should.have.property('status').to.equals('success');
           res.body.should.have.property('data').to.be.an('object');
           res.body.should.have
             .property('message')
@@ -342,7 +346,7 @@ describe('UNIT TESTS FOR Trips', () => {
         });
     });
 
-    it('it should not patch unavailabe trip ', (done) => {
+    it('it should not patch unavailable trip ', (done) => {
       const id = 1234568;
       chai
         .request(server)
@@ -353,10 +357,10 @@ describe('UNIT TESTS FOR Trips', () => {
         })
         .end((err, res) => {
           res.should.have.status(404);
-          res.body.should.have.property('status').to.equals(404);
+          res.body.should.have.property('status').to.equals('error');
           res.body.should.have
             .property('error')
-            .to.equals('This Trip does not exist');
+            .to.equals('Trip Id does not exists');
 
 
           done();
@@ -376,7 +380,7 @@ describe('UNIT TESTS FOR Trips', () => {
         })
         .end((err, res) => {
           res.should.have.status(401);
-          res.body.should.have.property('status').to.equals(401);
+          res.body.should.have.property('status').to.equals('error');
           res.body.should.have
             .property('error')
             .to.equals('Authentication Failed');

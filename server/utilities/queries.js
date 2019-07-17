@@ -91,9 +91,8 @@ class queryProvider {
           console.log('theeee', result);
           console.log('rowww', result.rowCount);
           if (result.rowCount >= 1) {
-            err.Message = 'seatnumber not available';
-            err.Status = 400;
-            reject(err);
+            console.log("I'm in here");
+            reject(new Error("this seat number is not available"));
           } else {
             obj.rowCount = result.rowCount;
             obj.rows = result.rows;
@@ -101,10 +100,7 @@ class queryProvider {
           }
         })
         .catch((error) => {
-          console.log('yea error', error);
-          err.Message = 'Error Finding tripid from trip';
-          err.Status = '02';
-          reject(err);
+          reject(new Error('Error finding trip Id from trip') );
         });
     });
   }
@@ -124,9 +120,7 @@ class queryProvider {
           console.log('theeee', result);
           console.log('rowww', result.rowCount);
           if (!(result.rowCount)) {
-            err.Message = 'Trips destination and origin cant be fetched';
-            err.status = 400;
-            reject(err);
+            reject(new Error("Error finding destination and origin from trip.") );
           } else {
             obj.rowCount = result.rowCount;
             obj.rows = result.rows;
@@ -134,10 +128,7 @@ class queryProvider {
           }
         })
         .catch((error) => {
-          console.log('yea error', error);
-          err.Message = 'Error Finding origin from trip';
-          err.Status = '02';
-          reject(err);
+          reject(new Error("Error finding destination and destinationfrom trip.") );
         });
     });
   }
@@ -158,9 +149,7 @@ class queryProvider {
           console.log('theeee', result);
           console.log('rowww', result.rowCount);
           if (!(result.rowCount)) {
-            err.Message = 'Trips origin cant be  fetched';
-            err.status = 400;
-            reject(err);
+            reject(new Error("Trip origin can not be fetched.") );
           } else {
             obj.rowCount = result.rowCount;
             obj.rows = result.rows;
@@ -168,10 +157,7 @@ class queryProvider {
           }
         })
         .catch((error) => {
-          console.log('yea error', error);
-          err.Message = 'Error Finding origin from trip';
-          err.Status = '02';
-          reject(err);
+          reject(new Error("Error finding origin from trip.") );
         });
     });
   }
@@ -191,9 +177,7 @@ class queryProvider {
           console.log('theeee', result);
           console.log('rowww', result.rowCount);
           if (!(result.rowCount)) {
-            err.Message = 'Trips destination cant be fetched';
-            err.Status = 400;
-            reject(err);
+            reject(new Error("Error finding destination from trip.") );
           } else {
             obj.rowCount = result.rowCount;
             obj.rows = result.rows;
@@ -201,10 +185,7 @@ class queryProvider {
           }
         })
         .catch((error) => {
-          console.log('yea error', error);
-          err.Message = 'Error Finding destination from trip';
-          err.Status = '02';
-          reject(err);
+          reject(new Error("Error finding destination from trip.") );
         });
     });
   }
@@ -722,17 +703,12 @@ class queryProvider {
                 console.log('firsterror', e);
                 reject(e);
               });
-          }).catch(() => {
-            const obj1 = {};
-            obj1.status = 404;
-            obj1.Error = 'This bus id is already assign to a trip';
-            reject(obj1);
+          }).catch((error) => {
+            reject(new Error("This bus ID is already assigned to a trip.") );
           });
         })
         .catch((error) => {
-          err.status = 400;
-          err.Message = 'this bus id does not exist';
-          reject(error);
+          reject(new Error("This bus ID is is not found.") );
         });
     });
   }
@@ -783,16 +759,15 @@ class queryProvider {
       db.query(queryBody)
         .then((result) => {
           if (result.rowCount === 0) {
-            const response = 'Trips does not exist';
-            reject(response);
+            reject(new Error('Trip Id does not exists') );
           } else if (result.rowCount >= 1) {
             obj.rowCount = result.rowCount;
             obj.rows = result.rows;
             resolve(obj);
           }
         })
-        .catch(() => {
-          const error = 'Error Finding trip';
+        .catch((error) => {
+          reject(new Error('Error finding Trip') );
           reject(error);
         });
     });
@@ -806,31 +781,23 @@ class queryProvider {
    * @param  {string} body - Request object
    * @return {string} res
    */
-  static updateSeatNumberQuery(trip_id, body) {
-    const {
-      seat_number,
-    } = body;
-    console.log('bodyyy', body);
+  static updateSeatNumberQuery(trip_id, seat_number) {
+    console.log('bodyyy', seat_number);
     return new Promise((resolve, reject) => {
       this.findTripsById(trip_id).then((res) => {
         const {
           capacity,
         } = res.rows[0];
-        console.log('omoo', res.rows[0]);
-        console.log('seattttttt', typeof (seat_number), typeof (capacity));
+        console.log('omoo', res.rows[0].capacity);
+         
         if (Number(seat_number) > Number(capacity)) {
-          const obj2 = {};
-          obj2.status = 400;
-          obj2.Message = `this seat number is not available pls select from 1 to ${capacity}`;
-          return reject(obj2);
+          reject(new Error(`this seat number is not available pls select from 1 to ${capacity}`) );
+         
         }
         this.findSeatNumberByTripid(trip_id, seat_number).then((respond) => {
-          console.log('alllll', respond.rows.length);
           if (respond.rows.length > 0) {
-            const obj2 = {};
-            obj2.status = 400;
-            obj2.Message = 'this seatNumber has been taken pls choose available seat number';
-            reject(obj2);
+          reject(new Error('this seatNumber has been taken pls choose available seat number') );
+            
           }
           const queryBody = `UPDATE Bookings SET seatnumber = '${seat_number}' WHERE tripid = '${trip_id}' returning * `;
           db.query(queryBody)
@@ -846,13 +813,13 @@ class queryProvider {
               }
             })
             .catch((erro) => {
-              const error = 'Error Finding trip';
+              
               console.log(erro);
-              reject(error);
+              reject(erro);
             });
         }).catch((error) => {
           console.log(error);
-          return reject(err);
+          return reject(error);
         });
       })
         .catch((error) => {
@@ -891,17 +858,13 @@ console.log('trtrtrt',trip_id,seat_number)
         } = res.rows[0];
         
         if (Number(seat_number) > Number(capacity)) {
-          const obj2 = {};
-          obj2.status = 400;
-          obj2.Message = `this seat number is not available pls select from 1 to ${capacity}`;
-          return reject(obj2);
+          reject(new Error(`this seat number is not available pls select from 1 to ${capacity}`) );
+         
         }
         this.findSeatNumberByTripid(trip_id, seat_number).then((respond) => {
           if (respond.rows.length > 0) {
-            const obj2 = {};
-            obj2.status = 400;
-            obj2.Message = 'this seatNumber has been taken pls choose available seat number';
-            reject(obj2);
+          reject(new Error('this seatNumber has been taken pls choose available seat number') );
+            
           }
 
           const queryBody = `
@@ -922,7 +885,7 @@ console.log('trtrtrt',trip_id,seat_number)
             });
         }).catch((error) => {
           console.log(error);
-          return reject(err);
+          return reject(error);
         });
       })
         .catch((error) => {

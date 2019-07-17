@@ -25,7 +25,7 @@ before(() => {
       })
       .end((err, res) => {
         userToken = res.body.data.token;
-        res.body.should.have.property('status').to.equals(200);
+        res.body.should.have.property('status').to.equals('success');
         res.body.should.have.property('data').to.be.an('object');
         done();
       });
@@ -54,7 +54,7 @@ describe('UNIT TESTS FOR Buses', () => {
         //   user = res.body.data.accountNumber;
 
           res.should.have.status(201);
-          res.body.should.have.property('status').to.equals(201);
+          res.body.should.have.property('status').to.equals('success');
           res.body.should.have.property('data').to.be.an('object');
           res.body.should.have
             .property('message')
@@ -72,11 +72,11 @@ describe('UNIT TESTS FOR Buses', () => {
         .send({})
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.should.have.property('status').to.equals(400);
+          res.body.should.have.property('status').to.equals('error');
           res.body.should.have
-            .property('message')
+            .property('error')
             .to.equals('Please fill all fields');
-
+  
           done();
         });
     });
@@ -94,10 +94,10 @@ describe('UNIT TESTS FOR Buses', () => {
           capacity: '10',
         })
         .end((err, res) => {
-          res.should.have.status(400);
-          res.body.should.have.property('status').to.equals(400);
+          res.should.have.status(409);
+          res.body.should.have.property('status').to.equals('error');
           res.body.should.have
-            .property('message')
+            .property('error')
             .to.equals('Bus with this platenumber exists already');
 
           done();
@@ -119,7 +119,7 @@ describe('UNIT TESTS FOR Buses', () => {
         })
         .end((err, res) => {
           res.should.have.status(401);
-          res.body.should.have.property('status').to.equals(401);
+          res.body.should.have.property('status').to.equals('error');
           res.body.should.have
             .property('error')
             .to.equals('Authentication Failed');
@@ -143,7 +143,7 @@ describe('UNIT TESTS FOR Buses', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.should.have.property('status').to.equals(400);
+          res.body.should.have.property('status').to.equals('error');
 
           done();
         });
