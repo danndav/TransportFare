@@ -2,6 +2,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import logger from 'morgan';
 import dotenv from 'dotenv';
+import swagger from 'swagger-ui-express';
+import swaggerDocument from '../swagger.json';
 import apiVersion1 from './versioning/v1';
 
 dotenv.config();
@@ -12,6 +14,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(bodyParser.json());
 app.use(logger('dev'));
+
+app.use('/api/v1', apiVersion1);
+app.use('/docs', swagger.serve, swagger.setup(swaggerDocument));
+
 app.use('/api/v1', apiVersion1);
 
 

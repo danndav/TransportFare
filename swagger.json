@@ -1,0 +1,563 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0",
+      "title": "WayFarer",
+      "description": "WayFarer is a public bus transportation booking server. You are required to develop the back-end API.",
+      "contact": {}
+    },
+    "host": "https://transportfare.herokuapp.com/",
+    "basePath": "api/v1",
+    "securityDefinitions": {
+      "token": {
+        "type": "apiKey",
+        "description": "",
+        "name": "token",
+        "in": "header"
+      }
+    },
+    "schemes": [
+      "https"
+    ],
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "paths": {
+      "/auth/signup": {
+        "post": {
+          "description": "TODO: Add Description",
+          "summary": "Signup Users to get authentication token",
+          "tags": [
+            "Authentication"
+          ],
+          "operationId": "SignupAuth",
+          "deprecated": false,
+          "produces": [
+            "application/json"
+          ],
+          "consumes": [
+            "application/x-www-form-urlencoded"
+          ],
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "email",
+              "in": "formData",
+              "required": true,
+              "type": "string",
+              "description": "The email for signup"
+            },
+            {
+              "name": "first_name",
+              "in": "formData",
+              "required": true,
+              "type": "string",
+              "description": "The first_name for signup"
+            },
+            {
+              "name": "last_name",
+              "in": "formData",
+              "required": true,
+              "type": "string",
+              "description": "The last_name for signup"
+            },
+            {
+              "name": "password",
+              "in": "formData",
+              "required": true,
+              "type": "string",
+              "description": "The password for signup"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "New user created successfully",
+              "headers": {}
+            }
+          },
+          "security": []
+        }
+      },
+      "/auth/signin": {
+        "post": {
+          "description": "Login Users",
+          "summary": "Sign-in User",
+          "tags": [
+            "Authentication"
+          ],
+          "operationId": "AuthSigninPost",
+          "deprecated": false,
+          "produces": [
+            "application/json"
+          ],
+          "consumes": [
+            "application/x-www-form-urlencoded"
+          ],
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "email",
+              "in": "formData",
+              "required": true,
+              "type": "string",
+              "description": "The email for login"
+            },
+            {
+              "name": "password",
+              "in": "formData",
+              "required": true,
+              "type": "string",
+              "description": "The password for login"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Authentication Successful",
+              "headers": {}
+            }
+          }
+        }
+      },
+      "/bus": {
+        "post": {
+          "description": "Buses",
+          "summary": "Add bus for trip",
+          "tags": [
+            "Trips"
+          ],
+          "operationId": "BusPost",
+          "deprecated": false,
+          "produces": [
+            "application/json"
+          ],
+          "consumes": [
+            "application/x-www-form-urlencoded"
+          ],
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "Bearer token",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "number_plate",
+              "in": "formData",
+              "required": true,
+              "type": "string",
+              "description": "The plate number for a bus"
+            },
+            {
+              "name": "manufacturer",
+              "in": "formData",
+              "required": true,
+              "type": "string",
+              "description": "The manufacturer for a bus"
+            },
+            {
+              "name": "model",
+              "in": "formData",
+              "required": true,
+              "type": "string",
+              "description": "The model for a bus"
+            },
+            {
+              "name": "year",
+              "in": "formData",
+              "required": true,
+              "type": "integer",
+              "format": "int32",
+              "description": "The year the bus was made"
+            },
+            {
+              "name": "capacity",
+              "in": "formData",
+              "required": true,
+              "type": "integer",
+              "format": "int32",
+              "description": "The capacity of the bus"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "New Bus created successfully",
+              "headers": {}
+            }, "404": {
+              "description": "Bus not created succesfully"
+            }
+          }
+        }
+        
+      },
+        
+      "/trips": {
+        "post": {
+          "description": "Trips Creation",
+          "summary": "Post trip",
+          "tags": [
+            "Trips"
+          ],
+          "operationId": "TripsPost",
+          "deprecated": false,
+          "produces": [
+            "application/json"
+          ],
+          "consumes": [
+            "application/x-www-form-urlencoded"
+          ],
+          "parameters": [
+            {
+              "name": "Bearer token",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": "The Token of the user"
+            },
+            {
+              "name": "Content-Type",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "bus_id",
+              "in": "formData",
+              "required": true,
+              "type": "integer",
+              "format": "int32",
+              "description": "The busid assign to a trip"
+            },
+            {
+              "name": "origin",
+              "in": "formData",
+              "required": true,
+              "type": "string",
+              "description": "The origin of a trip"
+            },
+            {
+              "name": "destination",
+              "in": "formData",
+              "required": true,
+              "type": "string",
+              "description": "The destination of a trip"
+            },
+            {
+              "name": "trip_date",
+              "in": "formData",
+              "required": true,
+              "type": "string",
+              "description": "The date of a trip"
+            },
+            {
+              "name": "fare",
+              "in": "formData",
+              "required": true,
+              "type": "integer",
+              "format": "int32",
+              "description": "The fare of a trip"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "New Trip created successfully",
+              "headers": {}
+            }
+          }
+        },
+        "get": {
+          "description": "Get Trips",
+          "summary": "Get all trips",
+          "tags": [
+            "Trips"
+          ],
+          "operationId": "TripsGet",
+          "deprecated": false,
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "token",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": "get the toke of the user"
+            },
+            {
+              "name": "Content-Type",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": ""
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successfully fetched all Trips",
+              "headers": {}
+            }
+          }
+        }
+      },
+      "/trips/{trip_id}": {
+        "patch": {
+          "description": "cancel trips",
+          "summary": "Cancel Trip",
+          "tags": [
+            "Trips"
+          ],
+          "operationId": "TripsByTripIdPatch",
+          "deprecated": false,
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "token",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "trip_id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": ""
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Trip Status Updated Successfully",
+              "headers": {}
+            }
+          }
+        }
+      },
+      "/bookings": {
+        "post": {
+          "description": "Bookings",
+          "summary": "Book a trip",
+          "tags": [
+            "Bookings"
+          ],
+          "operationId": "BookingsPost",
+          "deprecated": false,
+          "produces": [
+            "application/json"
+          ],
+          "consumes": [
+            "application/x-www-form-urlencoded"
+          ],
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "token",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "trip_id",
+              "in": "formData",
+              "required": true,
+              "type": "integer",
+              "format": "int32",
+              "description": "get the tripid for a booking"
+            },
+            {
+              "name": "seat_number",
+              "in": "formData",
+              "required": true,
+              "type": "integer",
+              "format": "int32",
+              "description": "user input seatnumber"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Booking SeatNumber Updated Successfully'",
+              "headers": {}
+            }
+          }
+        },
+        "get": {
+          "description": "TODO: Add Description",
+          "summary": "Get All Bookings",
+          "tags": [
+            "Bookings"
+          ],
+          "operationId": "BookingsGet",
+          "deprecated": false,
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "token",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "Content-Type",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": ""
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successfully fetched all Bookings",
+              "headers": {}
+            }
+          }
+        }
+      },
+      "/bookings/{booking_id}": {
+        "delete": {
+          "description": "Delete Booking only by an authorsied user",
+          "summary": "Delete Booking",
+          "tags": [
+            "Bookings"
+          ],
+          "operationId": "BookingIdDelete",
+          "deprecated": false,
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "token",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "booking_id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": ""
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successfully Deleted Booking",
+              "headers": {}
+            }
+          }
+        },
+        "patch": {
+          "description": "User should be able to change seat number",
+          "summary": "Change Booking Seat number",
+          "tags": [
+            "Bookings"
+          ],
+          "operationId": "BookingIdPatch",
+          "deprecated": false,
+          "produces": [
+            "application/json"
+          ],
+          "consumes": [
+            "application/x-www-form-urlencoded"
+          ],
+          "parameters": [
+            {
+              "name": "token",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "Content-Type",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "description": ""
+            },
+            {
+              "name": "trip_id",
+              "in": "formData",
+              "required": true,
+              "type": "integer",
+              "format": "int32",
+              "description": ""
+            },
+            {
+              "name": "seat_number",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description": ""
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Booking SeatNumber Updated Successfully",
+              "headers": {}
+            }
+          }
+        }
+      }
+    },
+    "security": [
+      {
+        "token": []
+      }
+    ],
+    "tags": [
+      {
+        "name": "Authentication"
+      },
+      {
+        "name": "Trips"
+      },
+      {
+        "name": "Bookings"
+      }
+    ]
+  }

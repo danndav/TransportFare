@@ -8,6 +8,7 @@ WayFarer is a public bus transportation booking server. You are required to deve
 
 - [HEROKU](https://transportfare.herokuapp.com/)
 - [Pivotal Tracker board](https://www.pivotaltracker.com/n/projects/2358604)
+- [Docs](https://transportfare.herokuapp.com/docs)
 
 ## Features
  
